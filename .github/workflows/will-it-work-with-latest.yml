@@ -14,7 +14,7 @@ jobs:
     if: github.ref == 'refs/heads/vite-master-safe-always-working-not-broken'
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Use latest Node.js
       uses: actions/setup-node@v3
