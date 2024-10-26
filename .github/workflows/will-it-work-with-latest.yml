@@ -1,0 +1,37 @@
+# The purpose of this workflow is to test if the project will break with the latest versions of node
+# and all dependencies.
+
+name: Will It Work With Latest
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Run daily at 00:00 UTC
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  test-latest:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/vite-master-safe-always-working-not-broken'
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use latest Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 'latest'  # This will use the latest available Node.js version
+
+    - name: Install dependencies and upgrade packages
+      run: |
+        npm install -g npm-check-updates
+        ncu -u
+        rm -f package-lock.json  # Remove lock file
+        npm install --no-package-lock # This will install the latest versions of all dependencies
+
+    - name: Run ESLint
+      run: |
+        npx tsc
+        npx eslint src
+
+    - name: Run E2E tests
+      run: npx vite-node ./src/main.ts
