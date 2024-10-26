@@ -8,8 +8,8 @@
       "ESNext",
       "DOM"
     ],
-    "moduleResolution": "node10",
-    // "moduleResolution": "bundler", // sems to be recommended by Vite.
+    // "moduleResolution": "node10",
+    "moduleResolution": "bundler", // sems to be recommended by Vite.
     "strict": true,
     "sourceMap": true,
     "resolveJsonModule": true,
@@ -33,7 +33,8 @@
   },
   "baseUrl": "src",
   "include": [
-    "src"
+    "src/**/*",
+    "eslint.config.mjs"
   ],
   "exclude": [
     // "dist/**/*",
