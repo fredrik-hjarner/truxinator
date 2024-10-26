@@ -86,7 +86,14 @@ export const asteroid = createGameObject({
       { type: AT.setMoveDirection, degrees: 0 },
       { type: AT.setAttribute, attribute: "collisionType", value: "enemy" },
       { type: AT.setAttribute, attribute: "boundToWindow", value: false },
-      // The following line is just a hack to hide the player initially.
+      // Set random movement direction and speed
+      fork({
+         type: AT.move,
+         x: { min: -2000, max: 2000 },
+         y: { min: -2000, max: 2000 },
+         frames: 10000,
+      }),
+      // The following line is just a hack to hide the asteroid initially.
       { type: AT.gfxSetShape, shape: "none" },
       wait(1),
       { type: AT.gfxSetShape, shape: "octagon" },
@@ -98,7 +105,7 @@ export const asteroid = createGameObject({
 export const smallAsteroid = createGameObject({
    name: "smallAsteroid",
    diameter: 17,
-   hp: 3,
+   hp: 2,
    options: { despawnWhenOutsideScreen: false, defaultDirectionalControls: false },
    actions: [
       fork(forever(
@@ -131,8 +138,8 @@ export const smallAsteroid = createGameObject({
 
 export const tinyAsteroid = createGameObject({
    name: "tinyAsteroid",
-   diameter: 13,
-   hp: 4,
+   diameter: 8,
+   hp: 2,
    options: { despawnWhenOutsideScreen: false, defaultDirectionalControls: false },
    actions: [
       fork(forever(

@@ -295,8 +295,8 @@ export class EnemyActionExecutor {
             }
 
             case AT.move: {
-               const moveX = currAction.x ?? 0;
-               const moveY = currAction.y ?? 0;
+               const moveX = currAction.x !== undefined ? this.getNumber(currAction.x) : 0;
+               const moveY = currAction.y !== undefined ? this.getNumber(currAction.y) : 0;
                const stepX = moveX / currAction.frames;
                const stepY = moveY / currAction.frames;
                /**

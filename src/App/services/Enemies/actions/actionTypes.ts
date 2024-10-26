@@ -113,8 +113,12 @@ export type TShootAccordingToMoveDirection = Readonly<{
 export type TSetShotSpeed =        Readonly<{ type: ActionType.setShotSpeed,
                                                 pixelsPerFrame: number }>;
 // Moves relative to current position.
-export type TMove =                Readonly<{ type: ActionType.move,
-                                                frames: number } & Partial<Vector>>;
+export type TMove = Readonly<{
+   type: ActionType.move,
+   frames: number,
+   x?: TNumber,
+   y?: TNumber
+}>;
 // A very atomic action.
 export type TMoveDelta =           Readonly<{ type: ActionType.moveDelta, x?: number, y?: number }>
 // Move to an absolute postion on screen.
