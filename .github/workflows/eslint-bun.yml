@@ -1,0 +1,35 @@
+# This workflow will install Bun and run ESLint using Bun.
+
+name: eslint-bun
+
+on:
+  push:
+    branches: ["vite-master-safe-always-working-not-broken"]
+  pull_request:
+    branches: ["vite-master-safe-always-working-not-broken"]
+
+permissions:
+  contents: read
+
+jobs:
+  eslint-bun:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup repo
+        uses: actions/checkout@v3
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: |
+          rm -f package-lock.json
+          bun install
+
+      - name: Run ESLint
+        run: |
+          bun x tsc
+          bun x eslint src
