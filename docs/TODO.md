@@ -465,3 +465,6 @@ fork(
 though that is more code so I dunno.
 or perhaps
 perFrame( actions: [{ type: AT.moveDelta, x, y }], stopWhenAttributeIsTrue: "someBooleanAttribute" )
+It would actually be nice if the "core" engine had as few actions as possible and then I could
+create my own actions on top of that, so that might be something I should experiment with trying
+to replace each composite actions with more primitive actions.
