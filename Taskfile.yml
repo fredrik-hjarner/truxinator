@@ -13,7 +13,7 @@ tasks:
 
   e2e-bun:
     sources: [src/**/*.ts]
-    cmds: [bun run ./src/main]
+    cmds: [bun run ./src/main.ts]
 
   eslint-node:
     sources: [src/**/*.ts]
