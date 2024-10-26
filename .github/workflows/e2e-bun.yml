@@ -30,4 +30,4 @@ jobs:
           bun install
 
       - name: Run e2e tests
-        run: bun run ./src/main
+        run: bun run ./src/main.ts
