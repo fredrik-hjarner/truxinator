@@ -97,7 +97,7 @@ export class GraphicsElement implements IDestroyable {
       element.style.position = "fixed";
       element.style.boxSizing = "border-box";
       element.style.backgroundSize = "contain";
-      element.style.imageRendering = "pixelated";
+      // element.style.imageRendering = "pixelated"; // This is already in index.html
       element.style.backgroundRepeat = "no-repeat";
       element.style.backgroundPosition = "center";
       element.style.zIndex = zIndices.graphicsEngineElements;

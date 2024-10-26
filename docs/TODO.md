@@ -468,3 +468,7 @@ perFrame( actions: [{ type: AT.moveDelta, x, y }], stopWhenAttributeIsTrue: "som
 It would actually be nice if the "core" engine had as few actions as possible and then I could
 create my own actions on top of that, so that might be something I should experiment with trying
 to replace each composite actions with more primitive actions.
+
+* Before releasing 0.7.0
+  - fix the start screens so they fit the games.
+    - actually I think only game 1 needs a better start screen.
