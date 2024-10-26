@@ -84,6 +84,7 @@ export const asteroid = createGameObject({
       // which is contra-intuitive. Should prolly not be set
       // automaticallt on tick, but need to be set explicitly.
       { type: AT.setMoveDirection, degrees: 0 },
+      { type: AT.setAttribute, attribute: "pointsOnDeath", value: 10 },
       { type: AT.setAttribute, attribute: "collisionType", value: "enemy" },
       { type: AT.setAttribute, attribute: "boundToWindow", value: false },
       // Set random movement direction and speed
@@ -125,6 +126,7 @@ export const smallAsteroid = createGameObject({
       // which is contra-intuitive. Should prolly not be set
       // automaticallt on tick, but need to be set explicitly.
       { type: AT.setMoveDirection, degrees: 0 },
+      { type: AT.setAttribute, attribute: "pointsOnDeath", value: 10 },
       { type: AT.setAttribute, attribute: "collisionType", value: "enemy" },
       { type: AT.setAttribute, attribute: "boundToWindow", value: false },
       // The following line is just a hack to hide the player initially.
@@ -159,6 +161,7 @@ export const tinyAsteroid = createGameObject({
       // which is contra-intuitive. Should prolly not be set
       // automaticallt on tick, but need to be set explicitly.
       { type: AT.setMoveDirection, degrees: 0 },
+      { type: AT.setAttribute, attribute: "pointsOnDeath", value: 10 },
       { type: AT.setAttribute, attribute: "collisionType", value: "enemy" },
       { type: AT.setAttribute, attribute: "boundToWindow", value: false },
       // The following line is just a hack to hide the player initially.
@@ -181,6 +184,7 @@ export const tinyAsteroidFragment = createGameObject({
          { type: AT.despawn },
       ),
       { type: AT.gfxSetColor, color: "red" },
+      { type: AT.setAttribute, attribute: "pointsOnDeath", value: 10 },
       { type: AT.setAttribute, attribute: "collisionType", value: "enemy" },
       { type: AT.setAttribute, attribute: "boundToWindow", value: false },
       { type: AT.gfxSetShape, shape: "circle" },
