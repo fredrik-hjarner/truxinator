@@ -1,4 +1,5 @@
 import type { TAction } from "../../App/services/Enemies/actions/actionTypes.ts";
+import type { TSpawnParams } from "../utils/utils.ts";
 
 import { ActionType as AT } from "../../App/services/Enemies/actions/actionTypes.ts";
 import {
@@ -7,7 +8,7 @@ import {
    forever,
    fork,
    spawn,
-   wait
+   wait,
 } from "../utils/utils.ts";
 
 /**
@@ -37,9 +38,32 @@ const screenWrapActions: TAction[] = [
    )),
 ];
 
+const createAsteroidFragment = (speed: number, angle: number): TSpawnParams => ({
+   x: 0,
+   y: 0,
+   actions: [
+      { type: AT.setMoveDirection, degrees: angle },
+      fork({
+         type: AT.move,
+         x: 1000 * Math.cos(angle * Math.PI / 180),
+         y: 1000 * Math.sin(angle * Math.PI / 180),
+         frames: 8000 / speed
+      }),
+   ]
+});
+
+const createExplosionEffect = (fragmentCount: number, fragmentType: string, speed: number) => {
+   const fragments = [];
+   for (let i = 0; i < fragmentCount; i++) {
+      const angle = (360 / fragmentCount) * i;
+      fragments.push(spawn(fragmentType, createAsteroidFragment(speed, angle)));
+   }
+   return fragments;
+};
+
 export const asteroid = createGameObject({
    name: "asteroid",
-   diameter: 18,
+   diameter: 24,
    hp: 3,
    options: { despawnWhenOutsideScreen: false, defaultDirectionalControls: false },
    actions: [
@@ -50,38 +74,7 @@ export const asteroid = createGameObject({
       )),
       fork(
          { type: AT.waitUntilAttrIs, attr: "hp", is: 0 },
-         spawn("smallAsteroid", {
-            x: 2,
-            y: 0,
-            // move outward slownly
-            actions: [
-               fork({ type: AT.move, x: 1000, y: 0, frames: 8000 }),
-            ]
-         }),
-         spawn("smallAsteroid", {
-            x: -2,
-            y: 0,
-            // move outward slownly
-            actions: [
-               fork({ type: AT.move, x: -1000, y: 0, frames: 8000 }),
-            ]
-         }),
-         spawn("smallAsteroid", {
-            x: 0,
-            y: 2,
-            // move outward slownly
-            actions: [
-               fork({ type: AT.move, x: 0, y: 1000, frames: 8000 }),
-            ]
-         }),
-         spawn("smallAsteroid", {
-            x: 0,
-            y: -2,
-            // move outward slownly
-            actions: [
-               fork({ type: AT.move, x: 0, y: -1000, frames: 8000 }),
-            ]
-         }),
+         ...createExplosionEffect(6, "smallAsteroid", 1),
          { type: AT.despawn },
       ),
       { type: AT.gfxSetColor, color: "red" },
@@ -115,38 +108,7 @@ export const smallAsteroid = createGameObject({
       )),
       fork(
          { type: AT.waitUntilAttrIs, attr: "hp", is: 0 },
-         spawn("tinyAsteroid", {
-            x: 2,
-            y: 0,
-            // move outward slownly
-            actions: [
-               fork({ type: AT.move, x: 1000, y: 0, frames: 8000 }),
-            ]
-         }),
-         spawn("tinyAsteroid", {
-            x: -2,
-            y: 0,
-            // move outward slownly
-            actions: [
-               fork({ type: AT.move, x: -1000, y: 0, frames: 8000 }),
-            ]
-         }),
-         spawn("tinyAsteroid", {
-            x: 0,
-            y: 2,
-            // move outward slownly
-            actions: [
-               fork({ type: AT.move, x: 0, y: 1000, frames: 8000 }),
-            ]
-         }),
-         spawn("tinyAsteroid", {
-            x: 0,
-            y: -2,
-            // move outward slownly
-            actions: [
-               fork({ type: AT.move, x: 0, y: -1000, frames: 8000 }),
-            ]
-         }),
+         ...createExplosionEffect(4, "tinyAsteroid", 1.3),
          { type: AT.despawn },
       ),
       { type: AT.gfxSetColor, color: "red" },
@@ -180,7 +142,7 @@ export const tinyAsteroid = createGameObject({
       )),
       fork(
          { type: AT.waitUntilAttrIs, attr: "hp", is: 0 },
-         // spawn even smaller fragments.
+         ...createExplosionEffect(3, "tinyAsteroidFragment", 1.6),
          { type: AT.despawn },
       ),
       { type: AT.gfxSetColor, color: "red" },
@@ -197,6 +159,24 @@ export const tinyAsteroid = createGameObject({
       wait(1),
       { type: AT.gfxSetShape, shape: "octagon" },
       // setup screen wrapping
+      ...screenWrapActions,
+   ]
+});
+
+export const tinyAsteroidFragment = createGameObject({
+   name: "tinyAsteroidFragment",
+   diameter: 8,
+   hp: 1,
+   options: { despawnWhenOutsideScreen: false, defaultDirectionalControls: false },
+   actions: [
+      fork(
+         { type: AT.waitUntilCollision, collisionTypes: ["playerBullet"] },
+         { type: AT.despawn },
+      ),
+      { type: AT.gfxSetColor, color: "red" },
+      { type: AT.setAttribute, attribute: "collisionType", value: "enemy" },
+      { type: AT.setAttribute, attribute: "boundToWindow", value: false },
+      { type: AT.gfxSetShape, shape: "circle" },
       ...screenWrapActions,
    ]
 });

@@ -7,7 +7,7 @@ import { playerShot } from "./player/playerShot.ts";
 import { shot } from "./shot.ts";
 import { spawner } from "./spawner.ts";
 import { layer1, layer2, layer3, parallax } from "./parallax/parallax.ts";
-import { asteroid, smallAsteroid, tinyAsteroid } from "./asteroid.ts";
+import { asteroid, smallAsteroid, tinyAsteroid, tinyAsteroidFragment } from "./asteroid.ts";
 import { IsBrowser } from "@/drivers/BrowserDriver/IsBrowser.ts";
 
 const startScreen: string = IsBrowser() ? (await import("./startScreen.png")).default : "";
@@ -30,6 +30,7 @@ const game: TGame = {
       asteroid,
       smallAsteroid,
       tinyAsteroid,
+      tinyAsteroidFragment,
 
       spawner,
    ]

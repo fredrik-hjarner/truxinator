@@ -102,7 +102,7 @@ export const setSpeed = (pixelsPerFrame: number): TSetSpeed => ({
    pixelsPerFrame
 });
 
-type TSpawnParams = {
+export type TSpawnParams = {
    x?: number | TRandomInt;
    y?: number | TRandomInt;
    actions?: (TAction)[]
