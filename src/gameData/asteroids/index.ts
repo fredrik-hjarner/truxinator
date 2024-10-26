@@ -9,6 +9,7 @@ import { spawner } from "./spawner.ts";
 import { layer1, layer2, layer3, parallax } from "./parallax/parallax.ts";
 import { asteroid, smallAsteroid, tinyAsteroid, tinyAsteroidFragment } from "./asteroid.ts";
 import { IsBrowser } from "@/drivers/BrowserDriver/IsBrowser.ts";
+import { asteroidSpawner } from "./asteroidSpawner.ts";
 
 const startScreen: string = IsBrowser() ? (await import("./startScreen.png")).default : "";
 
@@ -31,6 +32,7 @@ const game: TGame = {
       smallAsteroid,
       tinyAsteroid,
       tinyAsteroidFragment,
+      asteroidSpawner,
 
       spawner,
    ]
