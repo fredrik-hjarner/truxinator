@@ -443,3 +443,25 @@ events.
 * Why did I decide to have enums for the action types? I don't get good code completion that way.
   Maybe I needed them for something but maybe then typescript improved so that I don't need them?
   Maybe I should change to either constants or raw strings.
+
+* This action:
+{
+    type: AT.move,
+    x: { min: -2000, max: 2000 },
+    y: { min: -2000, max: 2000 },
+    frames: 10000,
+}
+could probably be written as:
+fork(
+  {
+    type: AT.repeat,
+    times: 100_000_000,
+    actions: [
+      { type: AT.moveDelta, x, y },
+      { type: AT.waitNextFrame },
+    ]
+  }
+)
+though that is more code so I dunno.
+or perhaps
+perFrame( actions: [{ type: AT.moveDelta, x, y }], stopWhenAttributeIsTrue: "someBooleanAttribute" )
