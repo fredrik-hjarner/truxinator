@@ -470,5 +470,5 @@ create my own actions on top of that, so that might be something I should experi
 to replace each composite actions with more primitive actions.
 
 * Before releasing 0.7.0
-  - fix the start screens so they fit the games.
-    - actually I think only game 1 needs a better start screen.
+  - ~~fix the start screens so they fit the games.~~
+    - ~~actually I think only game 1 needs a better start screen.~~
