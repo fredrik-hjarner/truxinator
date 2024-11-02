@@ -420,7 +420,7 @@ events.
 * I seem to maybe have an assumption in the code that the last actions always is despawn. Maybe this
   could create a problem in some weird situation when it is not the last action.
 
-* Use eslint flat config format of config file.
+* ~~Use eslint flat config format of config file.~~
 
 * use "plugin:@typescript-eslint/strict-type-checked" instead of
   "plugin:@typescript-eslint/recommended-type-checked".
@@ -430,9 +430,9 @@ events.
 * Since I have recoded so much shit, i.e. collision logic at the latest, remove/change all
   references to points and points events.
 
-* BEFORE RELEASING 0.7.0
-  - fix points somehow.
-    - How should points work?
+* ~~BEFORE RELEASING 0.7.0~~
+  - ~~fix points somehow.~~
+    - ~~How should points work?~~
       - Score could be a global attribute though the UI needs to update somehow.
   - fix highscores: I don't think they are enabled for Asteroids and Snake.
   
@@ -469,6 +469,10 @@ It would actually be nice if the "core" engine had as few actions as possible an
 create my own actions on top of that, so that might be something I should experiment with trying
 to replace each composite actions with more primitive actions.
 
-* Before releasing 0.7.0
+* ~~Before releasing 0.7.0~~
   - ~~fix the start screens so they fit the games.~~
     - ~~actually I think only game 1 needs a better start screen.~~
+
+* Graphics and Enemies are very tightly coupled. It would be nicer if Enemies updated their graphics
+  stuff via attributes, then afterwards Graphics service runs, checks the attributes and updates the
+  graphics accordingly so that it would look more like a pipeline.
