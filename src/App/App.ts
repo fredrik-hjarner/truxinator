@@ -268,7 +268,6 @@ export class App {
       // We want this first so that it can subscribe to shit and record last frame ASAP before
       // the next frame.
       await this.e2eTest.Init({
-         attributes,
          events,
       });
       await this.init.cursorShowGamePos();

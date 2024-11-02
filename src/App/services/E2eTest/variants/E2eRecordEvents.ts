@@ -3,7 +3,6 @@ import type {
 } from "../../Events/IEvents";
 import type { IE2eTest } from "../IE2eTest";
 import type { TInitParams } from "../../IService";
-import type { IAttributes } from "../../Attributes/IAttributes";
 
 import { gameState, sendDiffToDevTools, setFrame } from "../../GameState.ts";
 import { enableReduxDevTools } from "@/consts.ts";
@@ -28,7 +27,6 @@ export class E2eRecordEvents implements IE2eTest {
    private history: THistory = [];
 
    // deps/services
-   private attributes!: IAttributes;
    private events!: IGameEvents;
 
    public constructor({ name }: TConstructor) {
@@ -40,7 +38,6 @@ export class E2eRecordEvents implements IE2eTest {
       // TODO: Replace typecast with type guard.
       /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
       this.events = deps?.events!;
-      this.attributes = deps?.attributes!;
       /* eslint-enable @typescript-eslint/no-non-null-asserted-optional-chain */
 
       // TODO: These are not unsubscribed to.
