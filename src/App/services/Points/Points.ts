@@ -33,7 +33,7 @@ export class Points implements IPoints {
          case "add_points": {
             this.points += event.points;
             // console.log(`${event.enemy}: ${event.points}pts`);
-            this.updatePoints();
+            // this.updatePoints();
             break;
          }
          case "gameOver":
@@ -45,8 +45,4 @@ export class Points implements IPoints {
       }
    };
 
-   private updatePoints = () => {
-      // Dispatch event so UI knows to update.
-      this.app.eventsUi.dispatchEvent({ type: "uiScoreUpdated", points: this.points });
-   };
 }

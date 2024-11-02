@@ -1,6 +1,6 @@
 import type { IUI } from "./IUI";
 import type { IScene } from "./Scenes/types/IScene";
-import type { IGameEvents, IUiEvents, TGameEvent } from "../Events/IEvents";
+import type { IGameEvents, TGameEvent } from "../Events/IEvents";
 import type { IGameLoop } from "../GameLoop/IGameLoop";
 import type { TInitParams } from "../IService";
 import type { Highscore as THighscoreService } from "../Highscore/Highscore.ts";
@@ -28,7 +28,6 @@ export class UI implements IUI {
 
    // deps/services
    public events!: IGameEvents;
-   public eventsUi!: IUiEvents;
    public gameLoop!: IGameLoop;
    public highscoreService!: THighscoreService;
    public points!: IPoints;
@@ -69,7 +68,6 @@ export class UI implements IUI {
       /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
       // TODO: Better type checking here.
       this.events = deps?.events!;
-      this.eventsUi = deps?.eventsUi!;
       this.gameLoop = deps?.gameLoop!;
       this.highscoreService = deps?.highscore!;
       this.points = deps?.points!;
@@ -128,5 +126,11 @@ export class UI implements IUI {
 
       // Unset active scene
       this.activeScene = undefined;
+   };
+
+   public Update = () => {
+      if (this.activeScene) {
+         this.activeScene.update?.(); // TODO: Should ?. really be needed?
+      }
    };
 }

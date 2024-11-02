@@ -35,18 +35,6 @@ export type TGameEventSubscribers = TEventSubscribers<TGameEvent>
 export type IGameEvents = IEvents<TGameEvent>;
 
 
-/**************
- * UiEvents *
- **************/
-
-export type TUiEvent =
-   // sent for/to UI so UI can update.
-   { type: "uiScoreUpdated", points: number };
-
-export type TUiEventCallback =  TEventCallback<TUiEvent>;
-export type TUiEventSubscribers = TEventSubscribers<TUiEvent>
-export type IUiEvents = IEvents<TUiEvent>;
-
 /****************
  * EventsPoints *
  ****************/

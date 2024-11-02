@@ -1,5 +1,5 @@
 import type {
-   IEventsCollisions, IEventsPoints, IGameEvents, IUiEvents
+   IEventsCollisions, IEventsPoints, IGameEvents,
 } from "./Events/IEvents";
 import type { Settings } from "./Settings/Settings";
 import type { IInput } from "./Input/IInput";
@@ -31,7 +31,6 @@ export type TInitParams = Partial<{
   collisions: Collisions;
   events: IGameEvents;
   eventsCollisions: IEventsCollisions;
-  eventsUi: IUiEvents;
   eventsPoints: IEventsPoints;
   gameSpeed: IGameSpeed;
   points: IPoints;
@@ -55,4 +54,7 @@ export interface IService {
    */
   Init: (deps?: TInitParams) => Promise<void>
   // Destroy: () => void
+  // TODO: Eventually all services should make use of this Update method instead of listening to
+  //events.
+  Update?: () => void;
 }

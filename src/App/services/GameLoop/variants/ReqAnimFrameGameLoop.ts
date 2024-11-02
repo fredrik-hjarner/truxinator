@@ -53,7 +53,7 @@ export class ReqAnimFrameGameLoop implements IGameLoop {
       this.app.events.dispatchEvent({ type: "frame_tick", frameNr: this.FrameCount });
 
       // I want all the different stuff to run here in sequence
-      // updateGraphics();
+      this.app.ui.Update?.(); // TODO: should ?. really be needed?
    };
 
    /**

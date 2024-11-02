@@ -8,8 +8,8 @@ import type { IGraphics } from "./services/Graphics/IGraphics";
 import type { IPoints } from "./services/Points/IPoints";
 import type { IUI } from "./services/UI/IUI";
 import type {
-   IEventsCollisions, IEventsPoints, IGameEvents, IUiEvents, TCollisionsEvent,
-   TGameEvent, TPointsEvent, TUiEvent
+   IEventsCollisions, IEventsPoints, IGameEvents, TCollisionsEvent,
+   TGameEvent, TPointsEvent
 } from "./services/Events/IEvents";
 import type { IGameSpeed } from "./services/GameSpeed/IGameSpeed";
 import type { IFullscreen } from "./services/Fullscreen/IFullscreen";
@@ -99,11 +99,6 @@ export class App {
    public collisions: Collisions;
    public events: IGameEvents;
    public eventsCollisions: IEventsCollisions;
-   /**
-    * only listened to by the UI & UI Scenes,
-    * other services send messages over eventsUi so that the UI know when to update.
-    */
-   public eventsUi: IUiEvents;
    public eventsPoints: IEventsPoints;
    public gameSpeed: IGameSpeed;
    public points: IPoints;
@@ -162,7 +157,6 @@ export class App {
        * `dispatchEvent` and `subscribeToEvent` functions */
       this.events =           new Events<TGameEvent>({ app: this, name: "events" });
       this.eventsCollisions = new Events<TCollisionsEvent>({ app: this, name: "eventsCollisions" });
-      this.eventsUi =         new Events<TUiEvent>({ app: this, name: "eventsUi" });
       this.eventsPoints =     new Events<TPointsEvent>({ app: this, name: "eventsPoints" });
 
       this.gameSpeed = this.construct.gameSpeed();
@@ -236,7 +230,7 @@ export class App {
          attributes,
          // collisions,
          enemies,
-         events, eventsCollisions, eventsPoints, eventsUi,
+         events, eventsCollisions, eventsPoints,
          gameLoop, gamepad, graphics,
          highscore,
          input,
@@ -291,13 +285,11 @@ export class App {
       await this.events.Init();
       await this.eventsCollisions.Init();
       await this.eventsPoints.Init();
-      await this.eventsUi.Init();
       await this.init.gameSpeed();
       await this.points.Init();
       await this.graphics.Init();
       await this.ui.Init({
          events,
-         eventsUi,
          gameLoop,
          highscore,
          input,
