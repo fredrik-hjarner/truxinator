@@ -5,7 +5,7 @@ import type { IE2eTest } from "../IE2eTest";
 import type { TInitParams } from "../../IService";
 import type { IAttributes } from "../../Attributes/IAttributes";
 
-import { sendDiffToDevTools, setFrame } from "../../GameState.ts";
+import { gameState, sendDiffToDevTools, setFrame } from "../../GameState.ts";
 import { enableReduxDevTools } from "@/consts.ts";
 
 type THistory = Partial<{
@@ -63,8 +63,7 @@ export class E2eRecordEvents implements IE2eTest {
             this.history[lastFrame] = {};
          }
          // grab attributes and store them in history.
-         const attributes = this.attributes.attributes;
-         for (const [gameObjectId, attribute] of Object.entries(attributes.gameObjects)) {
+         for (const [gameObjectId, attribute] of Object.entries(gameState.gameObjects)) {
             this.history[lastFrame][gameObjectId] = attribute?.hp;
          }
 

@@ -1,7 +1,6 @@
 import type {
    IAttributes,
    TAttrValue,
-   TAttributes,
    TGameObjectIdAndAttrParams,
    TGetAttrParams,
    TIncrDecrAttrParams,
@@ -18,13 +17,9 @@ type TConstructor = {
 export class Attributes implements IAttributes {
    // vars
    public readonly name: string;
-   // Observe!! Object types like this should be in Partial<> to signal that keys may not exist.
-   // public so it can be grabbed in E2eRecordEvents service or what ever I will call it.
-   public attributes: TAttributes;
 
    public constructor({ name }: TConstructor) {
       this.name = name;
-      this.attributes = gameState;
    }
 
    public Init = async () => {

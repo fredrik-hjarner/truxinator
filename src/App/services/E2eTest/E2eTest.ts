@@ -7,6 +7,7 @@ import type { IAttributes } from "../Attributes/IAttributes.ts";
 
 import { BrowserDriver } from "@/drivers/BrowserDriver/index.ts";
 import { IsBrowser } from "@/drivers/BrowserDriver/IsBrowser.ts";
+import { gameState } from "../GameState.ts";
 
 type THistory = Partial<{
    [gameObjectId: string]: unknown // hp
@@ -69,10 +70,8 @@ export class E2eTest implements IE2eTest {
             this.startTime = BrowserDriver.PerformanceNow();
          }
 
-         const attributes = this.attributes.attributes;
-
          const _actual: Partial<{ [id: string]: unknown }> = {};
-         for (const [gameObjectId, attribute] of Object.entries(attributes.gameObjects)) {
+         for (const [gameObjectId, attribute] of Object.entries(gameState.gameObjects)) {
             _actual[gameObjectId] = attribute?.hp;
          }
          const actual = JSON.stringify(_actual);
