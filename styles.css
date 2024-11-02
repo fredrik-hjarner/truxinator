@@ -1,0 +1,72 @@
+* {
+   font-family: "PixelMicro" !important;
+   text-transform: uppercase;
+   user-select: none;
+   /* The line height of the PixelMicro font gets too "high". */
+   line-height: 65% !important;
+   image-rendering: pixelated;
+}
+
+html {
+   height: 100vh;
+   width: 100vw;
+   overflow: hidden;
+}
+
+body {
+   transform-origin: left top;
+   height: 100%;
+   width: 100%;
+   overflow: hidden;
+}
+
+@keyframes flash {
+   0% {
+      color: rgb(255, 10, 10);
+   }
+
+   33% {
+      color: rgb(0, 255, 0);
+   }
+
+   66% {
+      color: rgb(80, 80, 255);
+   }
+
+   100% {
+      color: rgb(255, 0, 0);
+   }
+}
+
+.flash1s,
+.flash3s {
+   animation-name: flash;
+   animation-iteration-count: infinite;
+   animation-direction: normal;
+   animation-timing-function: linear;
+}
+
+.flash1s {
+   animation-duration: 1.0s;
+}
+
+.flash3s {
+   animation-duration: 3.0s;
+}
+
+.menuItem {
+   cursor: pointer;
+   transition-property: transform, color;
+   transition-duration: 0.8s;
+   color: red !important;
+}
+
+.activeMenuItem {
+   transition-duration: 0.3s;
+   transform: scale(1.05);
+   color: rgba(255, 220, 190) !important;
+}
+
+.listItem {
+   color: red !important;
+}
