@@ -1,5 +1,5 @@
 import type {
-   IEventsCollisions, IEventsEndOfFrame, IEventsPoints, IGameEvents, IUiEvents
+   IEventsCollisions, IEventsPoints, IGameEvents, IUiEvents
 } from "./Events/IEvents";
 import type { Settings } from "./Settings/Settings";
 import type { IInput } from "./Input/IInput";
@@ -31,7 +31,6 @@ export type TInitParams = Partial<{
   collisions: Collisions;
   events: IGameEvents;
   eventsCollisions: IEventsCollisions;
-  eventsEndOfFrame: IEventsEndOfFrame;
   eventsUi: IUiEvents;
   eventsPoints: IEventsPoints;
   gameSpeed: IGameSpeed;

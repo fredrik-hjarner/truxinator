@@ -70,18 +70,3 @@ export type TCollisionsEvent =
 export type TCollisionsEventCallback =  TEventCallback<TCollisionsEvent>;
 export type TCollisionsEventSubscribers = TEventSubscribers<TCollisionsEvent>;
 export type IEventsCollisions = IEvents<TCollisionsEvent>;
-
-/**************
- * EndOfFrame *
- **************/
-
-/**
- * Happens at precisely before the end of frame. Services may "commit" their work or whatever.
- * I mostly did this for the Graphics service that accumulates changes then commits them in the end
- * in one go (i.e. dont change single style fields rather batch them up and do all-at-once).
- */
-export type TEndOfFrameEvent = { type: "end_of_frame", frameNr: number };
-
-export type TEndOfFrameEventCallback =  TEventCallback<TEndOfFrameEvent>;
-export type TEndOfFrameEventtSubscribers = TEventSubscribers<TEndOfFrameEvent>
-export type IEventsEndOfFrame = IEvents<TEndOfFrameEvent>;

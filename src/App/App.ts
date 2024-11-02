@@ -8,8 +8,8 @@ import type { IGraphics } from "./services/Graphics/IGraphics";
 import type { IPoints } from "./services/Points/IPoints";
 import type { IUI } from "./services/UI/IUI";
 import type {
-   IEventsCollisions, IEventsEndOfFrame, IEventsPoints, IGameEvents, IUiEvents, TCollisionsEvent,
-   TEndOfFrameEvent, TGameEvent, TPointsEvent, TUiEvent
+   IEventsCollisions, IEventsPoints, IGameEvents, IUiEvents, TCollisionsEvent,
+   TGameEvent, TPointsEvent, TUiEvent
 } from "./services/Events/IEvents";
 import type { IGameSpeed } from "./services/GameSpeed/IGameSpeed";
 import type { IFullscreen } from "./services/Fullscreen/IFullscreen";
@@ -68,12 +68,6 @@ import { NodeGameLoop } from "./services/GameLoop/variants/NodeGameLoop.ts";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ReqAnimFrameGameLoop } from "./services/GameLoop/variants/ReqAnimFrameGameLoop.ts";
 import { E2eRecordEvents } from "./services/E2eTest/variants/E2eRecordEvents.ts";
-//@ts-ignore
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { CanvasGfx } from "./services/Graphics/variants/CanvasGfx/CanvasGfx.ts";
-//@ts-ignore
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { CachedCanvasGfx } from "./services/Graphics/variants/CachedCanvasGfx/index.ts";
 
 /* Other */
 import { IsBrowser } from "@/drivers/BrowserDriver/IsBrowser.ts";
@@ -105,7 +99,6 @@ export class App {
    public collisions: Collisions;
    public events: IGameEvents;
    public eventsCollisions: IEventsCollisions;
-   public eventsEndOfFrame: IEventsEndOfFrame;
    /**
     * only listened to by the UI & UI Scenes,
     * other services send messages over eventsUi so that the UI know when to update.
@@ -169,7 +162,6 @@ export class App {
        * `dispatchEvent` and `subscribeToEvent` functions */
       this.events =           new Events<TGameEvent>({ app: this, name: "events" });
       this.eventsCollisions = new Events<TCollisionsEvent>({ app: this, name: "eventsCollisions" });
-      this.eventsEndOfFrame = new Events<TEndOfFrameEvent>({ app: this, name: "eventsEndOfFrame" });
       this.eventsUi =         new Events<TUiEvent>({ app: this, name: "eventsUi" });
       this.eventsPoints =     new Events<TPointsEvent>({ app: this, name: "eventsPoints" });
 
@@ -181,12 +173,7 @@ export class App {
 
       this.gameData = new GameData({ name: "gameData" });
 
-      this.graphics = IsBrowser() ?
-         new Graphics({ name: "graphics" }) :
-         // new CanvasGfx({ name: "graphics" }) :
-         // new CachedCanvasGfx({ name: "graphics" }) :
-         // new MockGraphics({ name: "mockGraphics" }) :
-         new MockGraphics({ name: "mockGraphics" });
+      this.graphics = IsBrowser() ? new Graphics() : new MockGraphics();
 
       this.ui = IsBrowser() ? new UI({ name: "ui" }) : new NoopService();
 
@@ -249,7 +236,7 @@ export class App {
          attributes,
          // collisions,
          enemies,
-         events, eventsEndOfFrame, eventsCollisions, eventsPoints, eventsUi,
+         events, eventsCollisions, eventsPoints, eventsUi,
          gameLoop, gamepad, graphics,
          highscore,
          input,
@@ -307,9 +294,7 @@ export class App {
       await this.eventsUi.Init();
       await this.init.gameSpeed();
       await this.points.Init();
-      await this.graphics.Init({
-         eventsEndOfFrame,
-      });
+      await this.graphics.Init();
       await this.ui.Init({
          events,
          eventsUi,

@@ -48,11 +48,12 @@ export class ReqAnimFrameGameLoop implements IGameLoop {
    // Public because GameSpeed might want control over frames.
    public nextFrame = () => {
       this.FrameCount++;
+
+      // TODO: Eventually remove these two calls and replace with running each thing in sequence.
       this.app.events.dispatchEvent({ type: "frame_tick", frameNr: this.FrameCount });
-      this.app.eventsEndOfFrame.dispatchEvent({
-         type: "end_of_frame",
-         frameNr: this.FrameCount
-      });
+
+      // I want all the different stuff to run here in sequence
+      // updateGraphics();
    };
 
    /**
