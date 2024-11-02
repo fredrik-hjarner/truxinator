@@ -26,3 +26,5 @@ export const zIndices = {
    graphicsEngineElements: "0", // Set to "0" to hide behind gameHide.
    ui: "2"
 } as const;
+
+export const enableReduxDevTools = false;
