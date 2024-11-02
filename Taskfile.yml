@@ -50,7 +50,15 @@ tasks:
   build-deno: deno run -A npm:vite build
   build-bun: bun x --bun vite build
 
+  perf-node:
+    cmds: ["time sh -c 'for i in $(seq 1 10); do echo \"Run $i/10:\"; npm run e2e:vite-node; done'"]
+  perf-deno:
+    cmds: ["time sh -c 'for i in $(seq 1 10); do echo \"Run $i/10:\"; deno task e2e; done'"]
+  perf-bun:
+    cmds: ["time sh -c 'for i in $(seq 1 10); do echo \"Run $i/10:\"; bun run ./src/main.ts; done'"]
+
   bun-build: bun build ./src/main.ts --outdir dist --public-path /schmupinator/
 
   start:
     deps: [serve-bun, lint-e2e-watch]
+
