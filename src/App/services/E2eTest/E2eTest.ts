@@ -6,7 +6,7 @@ import type { TInitParams } from "../IService";
 
 import { BrowserDriver } from "@/drivers/BrowserDriver/index.ts";
 import { IsBrowser } from "@/drivers/BrowserDriver/IsBrowser.ts";
-import { gameState } from "../GameState.ts";
+import { gameState, getFrame } from "../GameState.ts";
 
 type THistory = Partial<{
    [gameObjectId: string]: unknown // hp
@@ -60,7 +60,7 @@ export class E2eTest implements IE2eTest {
          }
       }
       if (event.type === "frame_tick") {
-         const lastFrame = event.frameNr - 1;
+         const lastFrame = getFrame() - 1;
 
          if(this.startTime === 0) {
             // start counting from the first frame.

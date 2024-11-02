@@ -4,8 +4,7 @@ import type {
 import type { IE2eTest } from "../IE2eTest";
 import type { TInitParams } from "../../IService";
 
-import { gameState, sendDiffToDevTools, setFrame } from "../../GameState.ts";
-import { enableReduxDevTools } from "@/consts.ts";
+import { gameState, getFrame } from "../../GameState.ts";
 
 type THistory = Partial<{
    [gameObjectId: string]: unknown // hp
@@ -51,7 +50,7 @@ export class E2eRecordEvents implements IE2eTest {
          // TODO: Should it destruct itself or something here?
       }
       if (event.type === "frame_tick") {
-         const lastFrame = event.frameNr - 1;
+         const lastFrame = getFrame() - 1;
          // (first frame is frame nr 1 though)
          if(lastFrame < 0) {
             return;
@@ -62,12 +61,6 @@ export class E2eRecordEvents implements IE2eTest {
          // grab attributes and store them in history.
          for (const [gameObjectId, attribute] of Object.entries(gameState.gameObjects)) {
             this.history[lastFrame][gameObjectId] = attribute?.hp;
-         }
-
-         // TODO: Shouldn't be here but whatever.
-         if(enableReduxDevTools) {
-            setFrame(lastFrame);
-            sendDiffToDevTools();
          }
       }
    };

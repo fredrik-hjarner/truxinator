@@ -15,6 +15,7 @@ import type { IPseudoRandom } from "../PseudoRandom/IPseudoRandom.ts";
 
 import { ActionType as AT } from "./actions/actionTypes.ts";
 import { Enemy } from "./Enemy.ts";
+import { getFrame } from "../GameState.ts";
 
 export class Enemies implements IService {
    public readonly name: string;
@@ -142,7 +143,7 @@ export class Enemies implements IService {
             /**
              * Spawn the spawner on the first frame
              */
-            if(event.frameNr === 1) {
+            if(getFrame() === 1) {
                /**
                 * The "spawner" enemy is not a normal enemy.
                 * It can do everything that an enemy can do, but it's

@@ -7,6 +7,7 @@ import { BrowserDriver } from "../../../drivers/BrowserDriver/index.ts";
 import { initElapsedTimeDiv } from "./elapsedTimeDiv.ts";
 import { initFpsDiv, initMaxWebWorkersDiv } from "./fpsDiv.ts";
 import { initFrameCounterDiv } from "./frameCounterDiv.ts";
+import { getFrame } from "../GameState.ts";
 
 type TConstructor = {
    // TODO: remove app here. should be super simple as fps is only dependent on app.events.
@@ -100,7 +101,7 @@ export class Fps implements IFps {
       // Display stats.
       const elapsed = BrowserDriver.PerformanceNow() - this.startTime;
 
-      const frame = event.frameNr;
+      const frame = getFrame();
       this.elapsedTimeDiv && (this.elapsedTimeDiv.innerHTML = `elapsed: ${round(elapsed/1000)}s`);
       this.framCounterDiv && (this.framCounterDiv.innerHTML = `frames: ${frame}`);
       this.fpsDiv && (this.fpsDiv.innerHTML = `fps: ${Math.round(frame / (elapsed / 1000))}`);

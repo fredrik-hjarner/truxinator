@@ -25,10 +25,16 @@ BrowserDriver.WithWindow((window) => {
 });
 /* eslint-enable */
 
+export function getFrame(): number {
+   return gameState.frame;
+}
 export function setFrame(frame: number): void {
+   gameState = { ...gameState, frame };
+}
+export function incrementFrame(): void {
    gameState = {
       ...gameState,
-      frame
+      frame: gameState.frame + 1
    };
 }
 
@@ -37,10 +43,7 @@ export function getPoints(): number {
    return gameState.points;
 }
 export function setPoints(points: number): void {
-   gameState = {
-      ...gameState,
-      points
-   };
+   gameState = { ...gameState, points };
 }
 export function incrementPoints(points: number) {
    gameState = {
@@ -54,8 +57,6 @@ export function getAttribute(gameObjectId: string, attribute: string): TAttrValu
    return gameState.gameObjects[gameObjectId]?.[attribute];
 }
 export function setAttribute(gameObjectId: string, attribute: string, value: TAttrValue): void {
-   // console.log("Setting attribute:", gameObjectId, attribute, value);
-   // Create entirely new state object
    gameState = {
       ...gameState,
       gameObjects: {

@@ -2,6 +2,7 @@ import type  { App } from "../../../App";
 import type { IGameLoop } from "../IGameLoop";
 
 import { BrowserDriver } from "../../../../drivers/BrowserDriver/index.ts";
+import { incrementFrame } from "../../GameState.ts";
 
 type TConstructor = {
    app: App;
@@ -11,7 +12,6 @@ type TConstructor = {
 export class NodeGameLoop implements IGameLoop {
    // vars
    public name: string;
-   public FrameCount: number;
    public frameSpeedMultiplier: number; // 1 = normal spd. 0 = paused. 2 = twice spd etc.
 
    // deps/services
@@ -24,7 +24,6 @@ export class NodeGameLoop implements IGameLoop {
       this.app = app;
       this.name = name;
 
-      this.FrameCount = 0;
       this.frameSpeedMultiplier = 1;
    }
 
@@ -42,8 +41,12 @@ export class NodeGameLoop implements IGameLoop {
 
    // Public because GameSpeed might want control over frames.
    public nextFrame = () => {
-      this.FrameCount++;
-      this.app.events.dispatchEvent({ type: "frame_tick", frameNr: this.FrameCount });
+      incrementFrame();
+
+      // TODO: Eventually remove these two calls and replace with running each thing in sequence.
+      this.app.events.dispatchEvent({ type: "frame_tick" });
+
+      // TODO: I want all the different stuff to run here in sequence
    };
 
    /**

@@ -1,6 +1,9 @@
 import type { IGameEvents } from "../../Events/IEvents";
+
 import type { TInitParams } from "../../IService";
 import type { ButtonsPressed, IInput } from "../IInput";
+
+import { getFrame } from "../../GameState.ts";
 
 type THistory = {
    inputs: Partial<{ [frame: number]: Partial<ButtonsPressed> }>
@@ -44,7 +47,7 @@ export class ReplayerInput implements IInput {
       this.events.subscribeToEvent(this.name, (event) => {
          switch(event.type) {
             case "frame_tick":
-               this.frameCount = event.frameNr;
+               this.frameCount = getFrame();
                break;
             default:
                // NOOP

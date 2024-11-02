@@ -1,8 +1,9 @@
 import type  { App } from "../../../App";
 import type { IGameLoop } from "../IGameLoop";
 
-import { millisPerFrame } from "../../../../consts.ts";
+import { enableReduxDevTools, millisPerFrame } from "../../../../consts.ts";
 import { BrowserDriver } from "../../../../drivers/BrowserDriver/index.ts";
+import { incrementFrame, sendDiffToDevTools } from "../../GameState.ts";
 
 type TConstructor = {
    app: App;
@@ -12,7 +13,6 @@ type TConstructor = {
 export class ReqAnimFrameGameLoop implements IGameLoop {
    // vars
    public name: string;
-   public FrameCount: number; // TODO: Make private.
    private nextFrameMillis: number | null;
    public frameSpeedMultiplier: number; // 1 = normal spd. 0 = paused. 2 = twice spd etc.
 
@@ -26,7 +26,6 @@ export class ReqAnimFrameGameLoop implements IGameLoop {
       this.app = app;
       this.name = name;
 
-      this.FrameCount = 0;
       this.nextFrameMillis = null;
       // TODO: Questionable if this should start as 1, but that's how it was.
       this.frameSpeedMultiplier = 1;
@@ -47,13 +46,17 @@ export class ReqAnimFrameGameLoop implements IGameLoop {
 
    // Public because GameSpeed might want control over frames.
    public nextFrame = () => {
-      this.FrameCount++;
+      incrementFrame();
 
       // TODO: Eventually remove these two calls and replace with running each thing in sequence.
-      this.app.events.dispatchEvent({ type: "frame_tick", frameNr: this.FrameCount });
+      this.app.events.dispatchEvent({ type: "frame_tick" });
 
-      // I want all the different stuff to run here in sequence
+      // TODO: I want all the different stuff to run here in sequence
       this.app.ui.Update?.(); // TODO: should ?. really be needed?
+
+      if(enableReduxDevTools) {
+         sendDiffToDevTools();
+      }
    };
 
    /**

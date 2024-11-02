@@ -24,7 +24,8 @@ export interface IEvents<TEvent> extends IService {
  * GameEvents *
  **************/
 
-type TEventFrameTick = { type: "frame_tick", frameNr: number };
+// TODO: I really want to remove the frame_tick event.
+type TEventFrameTick = { type: "frame_tick" };
 
 export type TGameEvent =
    TEventFrameTick | // signals next frame has come.

@@ -3,6 +3,7 @@ import type { IGameEvents } from "../Events/IEvents";
 import type { TInitParams } from "../IService";
 
 import { BrowserDriver } from "../../../drivers/BrowserDriver/index.ts";
+import { getFrame } from "../GameState.ts";
 
 type TConstructor = {
    name: string;
@@ -61,7 +62,7 @@ export class Input implements IInput {
             // TODO: Grabbing the frameNr like this might be retarded instead of grabbing it
             // directly from GameLoop.
             case "frame_tick":
-               this.frameCount = event.frameNr;
+               this.frameCount = getFrame();
                break;
             case "gameOver":
                console.log("Input.history:");
