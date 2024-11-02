@@ -5,11 +5,13 @@ import { BrowserDriver } from "@/drivers/BrowserDriver/index.ts";
 type TGameState = {
    frame: number;
    gameObjects: TAttributes["gameObjects"];
+   points: number;
 };
 
 export let gameState: TGameState = {
    frame: 0,
-   gameObjects: {}
+   gameObjects: {},
+   points: 0,
 };
 
 /* eslint-disable */
@@ -30,10 +32,27 @@ export function setFrame(frame: number): void {
    };
 }
 
+/* POINTS */
+export function getPoints(): number {
+   return gameState.points;
+}
+export function setPoints(points: number): void {
+   gameState = {
+      ...gameState,
+      points
+   };
+}
+export function incrementPoints(points: number) {
+   gameState = {
+      ...gameState,
+      points: gameState.points + points,
+   };
+}
+
+/* ATTRIBUTES */
 export function getAttribute(gameObjectId: string, attribute: string): TAttrValue | undefined {
    return gameState.gameObjects[gameObjectId]?.[attribute];
 }
-
 export function setAttribute(gameObjectId: string, attribute: string, value: TAttrValue): void {
    // console.log("Setting attribute:", gameObjectId, attribute, value);
    // Create entirely new state object

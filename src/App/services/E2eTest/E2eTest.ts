@@ -1,5 +1,5 @@
 import type {
-   IGameEvents, TCollisionsEvent, TGameEvent, TPointsEvent
+   IGameEvents, TCollisionsEvent, TGameEvent,
 } from "../Events/IEvents";
 import type { IE2eTest } from "./IE2eTest";
 import type { TInitParams } from "../IService";
@@ -49,7 +49,7 @@ export class E2eTest implements IE2eTest {
       this.events.subscribeToEvent(this.name, this.onEvent);
    };
 
-   private onEvent = (event: TGameEvent | TPointsEvent | TCollisionsEvent) => {
+   private onEvent = (event: TGameEvent | TCollisionsEvent) => {
       if (event.type === "gameOver") {
          // This should actually trigger for very kind of END OF GAME scenario.
          console.log("E2eTest: Test succeeded.");

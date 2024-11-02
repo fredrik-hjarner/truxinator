@@ -3,7 +3,7 @@ import type { IService, TInitParams } from "../IService";
 import type { GameData } from "../GamaData/GameData";
 import type { TGameObject } from "../../../gameTypes/TGameObject";
 import type {
-   IEventsCollisions, IEventsPoints, IGameEvents, TCollisionsEvent, TGameEvent
+   IEventsCollisions, IGameEvents, TCollisionsEvent, TGameEvent
 } from "../Events/IEvents";
 import type { IGraphics } from "../Graphics/IGraphics";
 import type { GamePad } from "../GamePad/GamePad";
@@ -26,7 +26,6 @@ export class Enemies implements IService {
    private gameData!: GameData;
    public events!: IGameEvents;
    public eventsCollisions!: IEventsCollisions;
-   public eventsPoints!: IEventsPoints;
    public graphics!: IGraphics;
    public input!: IInput;
    public gamepad!: GamePad;
@@ -54,7 +53,6 @@ export class Enemies implements IService {
       // TODO: Better type checking.
       this.events = deps?.events!;
       this.eventsCollisions = deps?.eventsCollisions!;
-      this.eventsPoints = deps?.eventsPoints!;
       this.gameData = deps?.gameData!;
       this.graphics = deps?.graphics!;
       this.input = deps?.input!;

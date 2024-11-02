@@ -1,5 +1,5 @@
 import type {
-   IEventsCollisions, IEventsPoints, IGameEvents,
+   IEventsCollisions, IGameEvents,
 } from "./Events/IEvents";
 import type { Settings } from "./Settings/Settings";
 import type { IInput } from "./Input/IInput";
@@ -10,7 +10,6 @@ import type { Enemies } from "./Enemies/Enemies";
 import type { GamePad } from "./GamePad/GamePad";
 import type { Collisions } from "./Collisions/Collisions";
 import type { IGameSpeed } from "./GameSpeed/IGameSpeed";
-import type { IPoints } from "./Points/IPoints";
 import type { Highscore } from "./Highscore/Highscore.ts";
 import type { GameData } from "./GamaData/GameData";
 import type { IGraphics } from "./Graphics/IGraphics";
@@ -31,9 +30,7 @@ export type TInitParams = Partial<{
   collisions: Collisions;
   events: IGameEvents;
   eventsCollisions: IEventsCollisions;
-  eventsPoints: IEventsPoints;
   gameSpeed: IGameSpeed;
-  points: IPoints;
   highscore: Highscore;
   gameData: GameData;
   graphics: IGraphics;

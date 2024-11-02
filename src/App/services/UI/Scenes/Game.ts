@@ -3,6 +3,7 @@ import type { UI } from "../UI";
 
 import { createText } from "./components/atoms/text.ts";
 import { fontSizes } from "./consts/fontSizes.ts";
+import { getPoints } from "../../GameState.ts";
 
 type TConstructor = {
    ui: UI;
@@ -22,7 +23,7 @@ export class Game implements IScene {
 
    public render() {
       this.scoreElement = createText({
-         text: `Score ${Math.round(this.ui.points.points)}`,
+         text: `Score ${Math.round(getPoints())}`,
          color: "white",
          fontSize: fontSizes.smallest,
          top: 10,
@@ -49,8 +50,7 @@ export class Game implements IScene {
 
    public update() {
       if (this.scoreElement) {
-         // TODO: Should it keep track of the last score and only update if it has changed?
-         this.scoreElement.innerHTML = `Score ${Math.round(this.ui.points.points)}`;
+         this.scoreElement.innerHTML = `Score ${Math.round(getPoints())}`;
       }
    }
 }

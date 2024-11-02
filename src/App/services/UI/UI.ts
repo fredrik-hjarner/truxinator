@@ -4,7 +4,6 @@ import type { IGameEvents, TGameEvent } from "../Events/IEvents";
 import type { IGameLoop } from "../GameLoop/IGameLoop";
 import type { TInitParams } from "../IService";
 import type { Highscore as THighscoreService } from "../Highscore/Highscore.ts";
-import type { IPoints } from "../Points/IPoints";
 import type { Settings as TSettingsService } from "../Settings/Settings";
 import type { IInput } from "../Input/IInput";
 import type { GameData } from "../GamaData/GameData";
@@ -30,7 +29,6 @@ export class UI implements IUI {
    public events!: IGameEvents;
    public gameLoop!: IGameLoop;
    public highscoreService!: THighscoreService;
-   public points!: IPoints;
    public settingsService!: TSettingsService;
    public input!: IInput;
    public gameData!: GameData;
@@ -70,7 +68,6 @@ export class UI implements IUI {
       this.events = deps?.events!;
       this.gameLoop = deps?.gameLoop!;
       this.highscoreService = deps?.highscore!;
-      this.points = deps?.points!;
       this.settingsService = deps?.settings!;
       this.input = deps?.input!;
       this.gameData = deps?.gameData!;

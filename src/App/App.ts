@@ -5,11 +5,10 @@ import type { IInput } from "./services/Input/IInput";
 import type { IGameLoop } from "./services/GameLoop/IGameLoop";
 import type { IFps } from "./services/Fps/IFps";
 import type { IGraphics } from "./services/Graphics/IGraphics";
-import type { IPoints } from "./services/Points/IPoints";
 import type { IUI } from "./services/UI/IUI";
 import type {
-   IEventsCollisions, IEventsPoints, IGameEvents, TCollisionsEvent,
-   TGameEvent, TPointsEvent
+   IEventsCollisions, IGameEvents, TCollisionsEvent,
+   TGameEvent,
 } from "./services/Events/IEvents";
 import type { IGameSpeed } from "./services/GameSpeed/IGameSpeed";
 import type { IFullscreen } from "./services/Fullscreen/IFullscreen";
@@ -36,9 +35,6 @@ import { Events } from "./services/Events/Events.ts";
 //@ts-ignore
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { GameSpeed } from "./services/GameSpeed/GameSpeed.ts";
-//@ts-ignore
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Points } from "./services/Points/Points.ts";
 import { Highscore } from "./services/Highscore/Highscore.ts";
 import { GameData } from "./services/GamaData/GameData.ts";
 //@ts-ignore
@@ -99,9 +95,7 @@ export class App {
    public collisions: Collisions;
    public events: IGameEvents;
    public eventsCollisions: IEventsCollisions;
-   public eventsPoints: IEventsPoints;
    public gameSpeed: IGameSpeed;
-   public points: IPoints;
    public highscore: Highscore;
    public gameData: GameData;
    public graphics: IGraphics;
@@ -157,11 +151,8 @@ export class App {
        * `dispatchEvent` and `subscribeToEvent` functions */
       this.events =           new Events<TGameEvent>({ app: this, name: "events" });
       this.eventsCollisions = new Events<TCollisionsEvent>({ app: this, name: "eventsCollisions" });
-      this.eventsPoints =     new Events<TPointsEvent>({ app: this, name: "eventsPoints" });
 
       this.gameSpeed = this.construct.gameSpeed();
-
-      this.points = new Points({ app: this, name: "points" });
 
       this.highscore = new Highscore({ name: "highscore" });
 
@@ -230,11 +221,10 @@ export class App {
          attributes,
          // collisions,
          enemies,
-         events, eventsCollisions, eventsPoints,
+         events, eventsCollisions,
          gameLoop, gamepad, graphics,
          highscore,
          input,
-         points,
          pseudoRandom,
          gameData,
          settings,
@@ -273,7 +263,6 @@ export class App {
          attributes,
          events,
          eventsCollisions,
-         eventsPoints,
          graphics,
          gameData,
          gamepad,
@@ -284,16 +273,13 @@ export class App {
       await gamepad.Init();
       await this.events.Init();
       await this.eventsCollisions.Init();
-      await this.eventsPoints.Init();
       await this.init.gameSpeed();
-      await this.points.Init();
       await this.graphics.Init();
       await this.ui.Init({
          events,
          gameLoop,
          highscore,
          input,
-         points,
          settings,
          gameData,
       });

@@ -7,6 +7,7 @@ import { createText } from "./components/atoms/text.ts";
 import { Countdown } from "./components/molecules/Countdown.ts";
 import { centerHorizontally } from "./utils/centering.ts";
 import { fontSizes } from "./consts/fontSizes.ts";
+import { getPoints } from "../../GameState.ts";
 
 type TConstructor = {
    ui: UI;
@@ -54,8 +55,7 @@ export class GameOver implements IScene {
    }
 
    private handleCountdDownDone = () => {
-      // TODO: Fix. Just some mocking atm.
-      const points = this.ui.points.points;
+      const points = getPoints();
       const { qualifiedForTop10: qualified, rank } =
          this.ui.highscoreService.qualifiedForTop10(points);
 

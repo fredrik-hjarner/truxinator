@@ -35,18 +35,6 @@ export type TGameEventSubscribers = TEventSubscribers<TGameEvent>
 export type IGameEvents = IEvents<TGameEvent>;
 
 
-/****************
- * EventsPoints *
- ****************/
-
-export type TPointsEvent =
-   // add points to the player (could be negative).
-   { type: "add_points", points: number, enemy: string };
-
-export type TPointsEventCallback =  TEventCallback<TPointsEvent>;
-export type TPointsEventSubscribers = TEventSubscribers<TPointsEvent>;
-export type IEventsPoints = IEvents<TPointsEvent>;
-
 /********************
  * EventsCollisions *
  ********************/
