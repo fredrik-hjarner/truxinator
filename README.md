@@ -5,11 +5,15 @@
 
 ![Schmupinator](https://raw.githubusercontent.com/fredrik-hjarner/schmupinator/vite-master-safe-always-working-not-broken/githubAssets/schmupinator.gif)
 
-**Work in progress! Code can break backward compatibility at any time. Code will most likely not stabilize before ~~2023~~ 2024, if I even get it to a stable state at all.**
+**Work in progress! Code will most likely not stabilize before ~~2023~~ ~~2024~~ 2025, if I even get it to a stable state at all.**
 
 > The ambition is to make a shoot 'em up maker with the ability for users to create their own shoot 'em up stages.
 
-You can try version 0.6.0 here: https://fredrik-hjarner.github.io/schmupinator/
+You can try version 0.7.0 here: https://fredrik-hjarner.github.io/schmupinator/
+
+~~You can try version 0.6.0 here: https://fredrik-hjarner.github.io/schmupinator-0.6.0/~~
+
+~~You can try version 0.5.0 here: https://fredrik-hjarner.github.io/schmupinator-0.5.0/~~
 
 ## Teasers
 
@@ -19,7 +23,11 @@ You can try version 0.6.0 here: https://fredrik-hjarner.github.io/schmupinator/
 
 ## Current state
 
-* You can play 2 very short stages, one vertical one horizontal.
+* You can play 4 simple games
+  * vertical shmup
+  * horizontal shmup
+  * asteroids
+  * snake
 * Highscore, separate for each level, that saves in localStorage.
 * You can theoretically build your own stages and enemies with JS/TS files, but really, you will need a tutorial or be pretty smart (~~200 IQ~~ 150 IQ) to figure out how to do it.
 
