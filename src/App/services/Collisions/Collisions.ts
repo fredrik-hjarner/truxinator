@@ -1,4 +1,4 @@
-import type { Enemies } from "../GameObjectManager/Enemies.ts";
+import type { Enemies } from "../GameObjectManager/GameObjectManager.ts";
 import type { IService, TInitParams } from "../IService";
 import type { IAttributes } from "../Attributes/IAttributes";
 
