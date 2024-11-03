@@ -53,8 +53,8 @@ export class ReqAnimFrameGameLoop implements IGameLoop {
       this.app.input.Update?.(); // TODO: should ?. really be needed?
       this.app.fps.Update?.(); // TODO: should ?. really be needed?
       const collisions = this.app.collisions.calculateCollisions();
-      this.app.enemies.storeCollisions(collisions);
-      this.app.enemies.Update?.(); // TODO: should ?. really be needed?
+      this.app.gameObjectManager.storeCollisions(collisions);
+      this.app.gameObjectManager.Update?.(); // TODO: should ?. really be needed?
       // TODO: It would be nice to like skip the graphics or do partial graphics if we're falling
       // behind.
       this.app.ui.Update?.(); // TODO: should ?. really be needed?

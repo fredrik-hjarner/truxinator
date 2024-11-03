@@ -16,7 +16,7 @@ import { ActionType as AT } from "./actions/actionTypes.ts";
 import { Enemy } from "./GameObject.ts";
 import { getFrame } from "../GameState.ts";
 
-export class Enemies implements IEnemies {
+export class GameObjectManager implements IEnemies {
    public readonly name: string;
    public enemies: { [gameObjectId: string]: Enemy };
    // Just so that player does not have to be found every time.

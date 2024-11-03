@@ -19,7 +19,7 @@ import type { ICollisions } from "./services/Collisions/ICollisions";
  * Services
  */
 import { CursorShowGamePos } from "./services/CursorShowGamePos/CursorShowGamePos.ts";
-import { Enemies } from "./services/GameObjectManager/GameObjectManager.ts";
+import { GameObjectManager } from "./services/GameObjectManager/GameObjectManager.ts";
 //@ts-ignore
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Fps } from "./services/Fps/Fps.ts";
@@ -81,7 +81,7 @@ export class App {
    public input: IInput;
    public gameLoop: IGameLoop;
    public fps: IFps;
-   public enemies: Enemies;
+   public gameObjectManager: GameObjectManager;
    public gamepad: GamePad;
    public collisions: ICollisions;
    public gameSpeed: IGameSpeed;
@@ -130,7 +130,7 @@ export class App {
 
       this.fps = this.construct.fps();
 
-      this.enemies = new Enemies({ name: "enemies" });
+      this.gameObjectManager = new GameObjectManager({ name: "gameObjectManager" });
       
       this.gamepad = new GamePad({ name: "gamePad" });
 
@@ -204,7 +204,7 @@ export class App {
       const {
          attributes,
          // collisions,
-         enemies,
+         gameObjectManager: enemies, // TODO: rename to gameObjectManager
          gameLoop, gamepad, graphics,
          highscore,
          input,
@@ -234,9 +234,9 @@ export class App {
       // `collidedWithCollisionTypesThisFrame`.
       await this.collisions.Init({
          attributes,
-         enemies,
+         enemies, // TODO: rename to gameObjectManager
       });
-      await enemies.Init({
+      await enemies.Init({ // TODO: rename to gameObjectManager
          attributes,
          graphics,
          gameData,

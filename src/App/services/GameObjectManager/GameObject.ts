@@ -1,7 +1,7 @@
 import type { TAction } from "./actions/actionTypes.ts";
 import type { Vector as TVector } from "../../../math/bezier.ts";
 import type { IGraphics, TGraphicsActionWithoutHandle } from "../Graphics/IGraphics.ts";
-import type { Enemies } from "./GameObjectManager.ts";
+import type { GameObjectManager } from "./GameObjectManager.ts";
 import type { TGameObject } from "../../../gameTypes/TGameObject.ts";
 
 import { ActionType as AT } from "./actions/actionTypes.ts";
@@ -18,7 +18,7 @@ import { incrementPoints, setGameOver } from "../GameState.ts";
 export class Enemy {
    public id: string;
    // public because grabbed in EnemyActionExecutor.
-   public enemies: Enemies; // enemies service
+   public enemies: GameObjectManager; // gameObjectManager service
    private graphics: IGraphics; // Graphics service
    private shotSpeed = 0.2; // super slow default shot speed, you'll always want to override this.
    private mirrorX = false;
@@ -32,7 +32,7 @@ export class Enemy {
    public collidedWithCollisionTypesThisFrame: string[] = [];
    public despawned = false; // set to true when despawned. used to to fully stop all coroutines.
 
-   public constructor( enemies: Enemies, position: TVector, json: TGameObject ) {
+   public constructor( enemies: GameObjectManager, position: TVector, json: TGameObject ) {
       this.enemies = enemies;
       this.id = `${json.name}-${uuid(json.name)}`;
       this.name = json.name;

@@ -1,4 +1,4 @@
-import type { Enemies } from "../GameObjectManager/GameObjectManager.ts";
+import type { GameObjectManager } from "../GameObjectManager/GameObjectManager.ts";
 import type { IService, TInitParams } from "../IService";
 import type { IAttributes } from "../Attributes/IAttributes";
 
@@ -33,7 +33,7 @@ export class Collisions implements IService {
    public accumulatedTime = 0;
    
    // deps/services
-   private enemies!: Enemies;
+   private enemies!: GameObjectManager;
    private attributes!: IAttributes;
 
    /**
