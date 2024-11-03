@@ -1,7 +1,7 @@
-import type { TGameObject } from "@/gameTypes/TGameObject";
+import type { TGameObject } from "@/gameTypes/TGameObject.ts";
 
 import { createGameObject, wait } from "@/gameData/utils/utils.ts";
-import { ActionType as AT } from "@/App/services/Enemies/actions/actionTypes.ts";
+import { ActionType as AT } from "@/App/services/GameObjectManager/actions/actionTypes.ts";
 
 export const traceDot: TGameObject = createGameObject({
    name: "traceDot",

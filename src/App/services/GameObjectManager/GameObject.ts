@@ -1,8 +1,8 @@
 import type { TAction } from "./actions/actionTypes.ts";
-import type { Vector as TVector } from "../../../math/bezier";
-import type { IGraphics, TGraphicsActionWithoutHandle } from "../Graphics/IGraphics";
-import type { Enemies } from "./Enemies";
-import type { TGameObject } from "../../../gameTypes/TGameObject";
+import type { Vector as TVector } from "../../../math/bezier.ts";
+import type { IGraphics, TGraphicsActionWithoutHandle } from "../Graphics/IGraphics.ts";
+import type { GameObjectManager } from "./GameObjectManager.ts";
+import type { TGameObject } from "../../../gameTypes/TGameObject.ts";
 
 import { ActionType as AT } from "./actions/actionTypes.ts";
 import { EnemyActionExecutor } from "./ActionExecutor/EnemyActionExecutor.ts";
@@ -15,10 +15,9 @@ import { assertNumber, /*, assertString */ isRandomIntParam } from "@/utils/type
 import { EnemyGfx } from "./EnemyGfx.ts";
 import { incrementPoints, setGameOver } from "../GameState.ts";
 
-export class Enemy {
+export class GameObject {
    public id: string;
-   // public because grabbed in EnemyActionExecutor.
-   public enemies: Enemies; // enemies service
+   public gameObjectManager: GameObjectManager; // gameObjectManager service
    private graphics: IGraphics; // Graphics service
    private shotSpeed = 0.2; // super slow default shot speed, you'll always want to override this.
    private mirrorX = false;
@@ -32,8 +31,10 @@ export class Enemy {
    public collidedWithCollisionTypesThisFrame: string[] = [];
    public despawned = false; // set to true when despawned. used to to fully stop all coroutines.
 
-   public constructor( enemies: Enemies, position: TVector, json: TGameObject ) {
-      this.enemies = enemies;
+   public constructor(
+      gameObjectManager: GameObjectManager, position: TVector, json: TGameObject
+   ) {
+      this.gameObjectManager = gameObjectManager;
       this.id = `${json.name}-${uuid(json.name)}`;
       this.name = json.name;
       this.attrs.setAttribute({gameObjectId: this.id, attribute:"diameter", value: json.diameter });
@@ -43,20 +44,20 @@ export class Enemy {
          actionHandler: this.HandleAction, // TODO: Remove this line.
          actions: json.actions,
          enemy: this,
-         input: this.enemies.input,
-         gamepad: this.enemies.gamepad,
+         input: this.gameObjectManager.input,
+         gamepad: this.gameObjectManager.gamepad,
       });
       this.attrs
          .setAttribute({gameObjectId: this.id, attribute: "collisionType", value: "none" });
       this.attrs
          .setAttribute({gameObjectId: this.id, attribute: "moveDirectionAngle", value: 180 });
       this.speed = 0;
-      this.graphics = this.enemies.graphics;
+      this.graphics = this.gameObjectManager.graphics;
       this.gfx = new EnemyGfx({
          diameter: json.diameter, graphics: this.graphics, x: position.x, y: position.y
       });
    }
-   private get attrs() { return this.enemies.attributes; } // convenience getter to shorten code.
+   private get attrs() { return this.gameObjectManager.attributes; } // convenience to shorten code.
 
    // TODO: Converting from/to angle/vector seems a bit unoptimized.
    // facing/aim in angle degrees or 2d vector. 0 faces up, 90 = right, 180 = down, 270 = left.
@@ -137,7 +138,7 @@ export class Enemy {
 
    private despawn = () => {
       this.despawned = true;
-      delete this.enemies.enemies[this.id]; // remove this enemy.
+      delete this.gameObjectManager.enemies[this.id]; // remove this enemy.
 
       const points = assertNumber(this.attrs.getAttribute({
          gameObjectId: this.id,
@@ -197,10 +198,10 @@ export class Enemy {
          case AT.spawn: { // TODO: Other actions are one-liners, maybe this should be too?
             const { enemy, actions, x, y } = action;
             const xx = isRandomIntParam(x)
-               ? this.enemies.pseudoRandom.randomInt(x.min, x.max)
+               ? this.gameObjectManager.pseudoRandom.randomInt(x.min, x.max)
                : x ?? 0;
             const yy = isRandomIntParam(y)
-               ? this.enemies.pseudoRandom.randomInt(y.min, y.max)
+               ? this.gameObjectManager.pseudoRandom.randomInt(y.min, y.max)
                : y ?? 0;
             this.spawn({ enemy, pos: { x: xx, y: yy }, actions });
             break;
@@ -273,14 +274,14 @@ export class Enemy {
    /* TODO: This should be removed. Instead I should do this somehow with an action or attributes,
     * so that you can shoot toward any position (or any position of a GameObject). */
    private ShootTowardPlayer = () => {
-      const player = this.enemies.player;
+      const player = this.gameObjectManager.player;
       const dirX = player.x - this.x;
       const dirY = player.y - this.y;
       this.ShootDirection({ dirX, dirY });
    };
 
    private ShootBesidePlayer = (degrees: number) => {
-      const player = this.enemies.player;
+      const player = this.gameObjectManager.player;
       const dirX = player.x - this.x;
       const dirY = player.y - this.y;
       const vector = new Vector(dirX, dirY).rotateClockwiseM(Angle.fromDegrees(degrees));
@@ -312,7 +313,7 @@ export class Enemy {
    };
 
    private RotateTowardsPlayer = () => {
-      const playerCircle = this.enemies.player;
+      const playerCircle = this.gameObjectManager.player;
       const playerVector = new Vector(playerCircle.x, playerCircle.y);
       // TODO: Make all positions into Vectors! Also rename Vector type to TVector.
       const enemyVector = new Vector(this.x, this.y);
@@ -339,7 +340,7 @@ export class Enemy {
    ) => {
       // Make a relative position into an absolute one.
       const absolute = { x: pos.x + this.x, y: pos.y + this.y };
-      this.enemies.Spawn({
+      this.gameObjectManager.Spawn({
          enemy,
          position: absolute,
          prependActions: actions,

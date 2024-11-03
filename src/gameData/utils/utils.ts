@@ -1,10 +1,10 @@
 import type {
    TAction, TAttrIf, TFork, TMoveToAbsolute, TNumber, TRandomInt, TRepeat, TSetShotSpeed, TSetSpeed,
    TSpawn, TWait, TparallelAll, TparallelRace
-} from "../../App/services/Enemies/actions/actionTypes.ts";
+} from "../../App/services/GameObjectManager/actions/actionTypes.ts";
 import type { TGameObject } from "@/gameTypes/TGameObject";
 
-import { ActionType as AT } from "../../App/services/Enemies/actions/actionTypes.ts";
+import { ActionType as AT } from "../../App/services/GameObjectManager/actions/actionTypes.ts";
 
 export const col = {
    "-1" : -36,

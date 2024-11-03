@@ -7,7 +7,7 @@ import {
 } from "../utils/utils.ts";
 import { col, row } from "./common.ts";
 import { aimersWave } from "./waves/aimers.ts";
-import { ActionType as AT } from "@/App/services/Enemies/actions/actionTypes.ts";
+import { ActionType as AT } from "@/App/services/GameObjectManager/actions/actionTypes.ts";
 
 export const stage: TGameObject = createGameObject({
    name: "stage",

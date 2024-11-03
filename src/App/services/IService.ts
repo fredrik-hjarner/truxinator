@@ -3,7 +3,7 @@ import type { IInput } from "./Input/IInput";
 import type { IE2eTest } from "./E2eTest/IE2eTest";
 import type { IGameLoop } from "./GameLoop/IGameLoop";
 import type { IFps } from "./Fps/IFps";
-import type { Enemies } from "./Enemies/Enemies";
+import type { GameObjectManager } from "./GameObjectManager/GameObjectManager.ts";
 import type { GamePad } from "./GamePad/GamePad";
 import type { Collisions } from "./Collisions/Collisions";
 import type { IGameSpeed } from "./GameSpeed/IGameSpeed";
@@ -22,7 +22,7 @@ export type TInitParams = Partial<{
   input: IInput;
   gameLoop: IGameLoop;
   fps: IFps;
-  enemies: Enemies;
+  gameObjectManager: GameObjectManager;
   gamepad: GamePad;
   collisions: Collisions;
   gameSpeed: IGameSpeed;

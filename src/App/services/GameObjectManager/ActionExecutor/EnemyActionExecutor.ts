@@ -1,10 +1,10 @@
 import type {
    TAction, TInputButton, TNumber, TRotateAroundAbsolutePoint, TRotateAroundRelativePoint, TString
 } from "../actions/actionTypes.ts";
-import type { IAttributes, TAttrValue } from "../../Attributes/IAttributes";
-import type { IInput } from "../../Input/IInput";
-import type { GamePad } from "../../GamePad/GamePad";
-import type { Enemy } from "../Enemy.ts";
+import type { IAttributes, TAttrValue } from "../../Attributes/IAttributes.ts";
+import type { IInput } from "../../Input/IInput.ts";
+import type { GamePad } from "../../GamePad/GamePad.ts";
+import type { GameObject } from "../GameObject.ts";
 import type { IPseudoRandom } from "../../PseudoRandom/IPseudoRandom.ts";
 
 import { ActionType as AT } from "../actions/actionTypes.ts";
@@ -41,7 +41,7 @@ type TEnemyActionExecutorArgs = {
    // You can execute things in parallel with special compound actions like parallelRace.
    actions: TAction[];
    actionHandler: TActionHandler;
-   enemy: Enemy;
+   enemy: GameObject;
    input: IInput;
    gamepad: GamePad;
 }
@@ -52,7 +52,7 @@ export class EnemyActionExecutor {
    private gamepad: GamePad;
 
    private actionHandler: (action: TAction) => void;
-   private enemy: Enemy;
+   private enemy: GameObject;
    private attrs: IAttributes; // attribute service for convenience.
    private pseudoRandom: IPseudoRandom;
    // The only reason I don't have only ONE generator is because of the `fork` action.
@@ -63,8 +63,8 @@ export class EnemyActionExecutor {
       const { actions, actionHandler, enemy, input, gamepad } = params;
       this.actionHandler = actionHandler;
       this.enemy = enemy;
-      this.attrs = enemy.enemies.attributes; // for convenience.
-      this.pseudoRandom = enemy.enemies.pseudoRandom; // for convenience.
+      this.attrs = enemy.gameObjectManager.attributes; // for convenience.
+      this.pseudoRandom = enemy.gameObjectManager.pseudoRandom; // for convenience.
       this.input = input;
       this.gamepad = gamepad;
       this.generators = [this.makeGenerator(actions)];

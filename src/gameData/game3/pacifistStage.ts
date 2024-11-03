@@ -1,7 +1,7 @@
 import type { TGameObject } from "../../gameTypes/TGameObject";
-import type { TSpawn } from "../../App/services/Enemies/actions/actionTypes.ts";
+import type { TSpawn } from "../../App/services/GameObjectManager/actions/actionTypes.ts";
 
-import { ActionType as AT} from "../../App/services/Enemies/actions/actionTypes.ts";
+import { ActionType as AT} from "../../App/services/GameObjectManager/actions/actionTypes.ts";
 import { createGameObject, repeat, wait } from "../utils/utils.ts";
 
 const sinusLeft: TSpawn = {
