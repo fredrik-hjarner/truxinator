@@ -4,7 +4,7 @@ import type {
 import type { IAttributes, TAttrValue } from "../../Attributes/IAttributes.ts";
 import type { IInput } from "../../Input/IInput.ts";
 import type { GamePad } from "../../GamePad/GamePad.ts";
-import type { Enemy } from "../Enemy.ts";
+import type { Enemy } from "../GameObject.ts";
 import type { IPseudoRandom } from "../../PseudoRandom/IPseudoRandom.ts";
 
 import { ActionType as AT } from "../actions/actionTypes.ts";

@@ -13,7 +13,7 @@ import type { IEnemies } from "./IEnemies.ts";
 import type { TCollisions } from "../Collisions/Collisions.ts";
 
 import { ActionType as AT } from "./actions/actionTypes.ts";
-import { Enemy } from "./Enemy.ts";
+import { Enemy } from "./GameObject.ts";
 import { getFrame } from "../GameState.ts";
 
 export class Enemies implements IEnemies {
