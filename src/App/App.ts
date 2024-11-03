@@ -81,9 +81,6 @@ const isRelease = IsBrowser() ? import.meta.env.MODE === "release" : false;
 export class App {
    // types here should not be IService but rather something that implements IService.
    // TODO: also all types should NOT be concrete types, but interfaces.
-   // TODO: I think the goal was to make all services on App be private, so it's not wild west and
-   // every service can access every other service and it's thus impossible to know what service has
-   // what service as a dependencies.
    private cursorShowGamePos: ICursorShowGamePos;
    public e2eTest: IE2eTest;
    private settings: Settings;
