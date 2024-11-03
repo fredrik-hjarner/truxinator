@@ -5,12 +5,7 @@ import type { IInput } from "./services/Input/IInput";
 import type { IGameLoop } from "./services/GameLoop/IGameLoop";
 import type { IFps } from "./services/Fps/IFps";
 import type { IGraphics } from "./services/Graphics/IGraphics";
-import type { IPoints } from "./services/Points/IPoints";
 import type { IUI } from "./services/UI/IUI";
-import type {
-   IEventsCollisions, IEventsEndOfFrame, IEventsPoints, IGameEvents, IUiEvents, TCollisionsEvent,
-   TEndOfFrameEvent, TGameEvent, TPointsEvent, TUiEvent
-} from "./services/Events/IEvents";
 import type { IGameSpeed } from "./services/GameSpeed/IGameSpeed";
 import type { IFullscreen } from "./services/Fullscreen/IFullscreen";
 import type { IE2eTest } from "./services/E2eTest/IE2eTest";
@@ -18,6 +13,7 @@ import type { IOutsideHider } from "./services/OutsideHider/IOutsideHider";
 import type { ICursorShowGamePos } from "./services/CursorShowGamePos/ICursorShowGamePos";
 import type { IAttributes } from "./services/Attributes/IAttributes";
 import type { IPseudoRandom } from "./services/PseudoRandom/IPseudoRandom";
+import type { ICollisions } from "./services/Collisions/ICollisions";
 
 /**
  * Services
@@ -32,13 +28,7 @@ import { GamePad } from "./services/GamePad/GamePad.ts";
 import { Collisions } from "./services/Collisions/Collisions.ts";
 //@ts-ignore
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Events } from "./services/Events/Events.ts";
-//@ts-ignore
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { GameSpeed } from "./services/GameSpeed/GameSpeed.ts";
-//@ts-ignore
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Points } from "./services/Points/Points.ts";
 import { Highscore } from "./services/Highscore/Highscore.ts";
 import { GameData } from "./services/GamaData/GameData.ts";
 //@ts-ignore
@@ -68,12 +58,6 @@ import { NodeGameLoop } from "./services/GameLoop/variants/NodeGameLoop.ts";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ReqAnimFrameGameLoop } from "./services/GameLoop/variants/ReqAnimFrameGameLoop.ts";
 import { E2eRecordEvents } from "./services/E2eTest/variants/E2eRecordEvents.ts";
-//@ts-ignore
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { CanvasGfx } from "./services/Graphics/variants/CanvasGfx/CanvasGfx.ts";
-//@ts-ignore
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { CachedCanvasGfx } from "./services/Graphics/variants/CachedCanvasGfx/index.ts";
 
 /* Other */
 import { IsBrowser } from "@/drivers/BrowserDriver/IsBrowser.ts";
@@ -91,29 +75,16 @@ const isRelease = IsBrowser() ? import.meta.env.MODE === "release" : false;
 export class App {
    // types here should not be IService but rather something that implements IService.
    // TODO: also all types should NOT be concrete types, but interfaces.
-   // TODO: I think the goal was to make all services on App be private, so it's not wild west and
-   // every service can access every other service and it's thus impossible to know what service has
-   // what service as a dependencies.
    private cursorShowGamePos: ICursorShowGamePos;
-   private e2eTest: IE2eTest;
+   public e2eTest: IE2eTest;
    private settings: Settings;
-   private input: IInput;
+   public input: IInput;
    public gameLoop: IGameLoop;
    public fps: IFps;
    public enemies: Enemies;
    public gamepad: GamePad;
-   public collisions: Collisions;
-   public events: IGameEvents;
-   public eventsCollisions: IEventsCollisions;
-   public eventsEndOfFrame: IEventsEndOfFrame;
-   /**
-    * only listened to by the UI & UI Scenes,
-    * other services send messages over eventsUi so that the UI know when to update.
-    */
-   public eventsUi: IUiEvents;
-   public eventsPoints: IEventsPoints;
+   public collisions: ICollisions;
    public gameSpeed: IGameSpeed;
-   public points: IPoints;
    public highscore: Highscore;
    public gameData: GameData;
    public graphics: IGraphics;
@@ -165,28 +136,13 @@ export class App {
 
       this.collisions = new Collisions({ name: "collisions" });
 
-      /* The events services are event channels passing events with
-       * `dispatchEvent` and `subscribeToEvent` functions */
-      this.events =           new Events<TGameEvent>({ app: this, name: "events" });
-      this.eventsCollisions = new Events<TCollisionsEvent>({ app: this, name: "eventsCollisions" });
-      this.eventsEndOfFrame = new Events<TEndOfFrameEvent>({ app: this, name: "eventsEndOfFrame" });
-      this.eventsUi =         new Events<TUiEvent>({ app: this, name: "eventsUi" });
-      this.eventsPoints =     new Events<TPointsEvent>({ app: this, name: "eventsPoints" });
-
       this.gameSpeed = this.construct.gameSpeed();
-
-      this.points = new Points({ app: this, name: "points" });
 
       this.highscore = new Highscore({ name: "highscore" });
 
       this.gameData = new GameData({ name: "gameData" });
 
-      this.graphics = IsBrowser() ?
-         new Graphics({ name: "graphics" }) :
-         // new CanvasGfx({ name: "graphics" }) :
-         // new CachedCanvasGfx({ name: "graphics" }) :
-         // new MockGraphics({ name: "mockGraphics" }) :
-         new MockGraphics({ name: "mockGraphics" });
+      this.graphics = IsBrowser() ? new Graphics() : new MockGraphics();
 
       this.ui = IsBrowser() ? new UI({ name: "ui" }) : new NoopService();
 
@@ -249,11 +205,9 @@ export class App {
          attributes,
          // collisions,
          enemies,
-         events, eventsEndOfFrame, eventsCollisions, eventsPoints, eventsUi,
          gameLoop, gamepad, graphics,
          highscore,
          input,
-         points,
          pseudoRandom,
          gameData,
          settings,
@@ -267,15 +221,10 @@ export class App {
 
       // We want this first so that it can subscribe to shit and record last frame ASAP before
       // the next frame.
-      await this.e2eTest.Init({
-         attributes,
-         events,
-      });
+      await this.e2eTest.Init();
       await this.init.cursorShowGamePos();
       await settings.Init();
-      await input.Init({
-         events
-      });
+      await input.Init();
       await gameLoop.Init();
       await this.init.fps();
       // Note order of init: input -> collisions -> enemies -> graphics
@@ -286,14 +235,9 @@ export class App {
       await this.collisions.Init({
          attributes,
          enemies,
-         events,
-         eventsCollisions,
       });
       await enemies.Init({
          attributes,
-         events,
-         eventsCollisions,
-         eventsPoints,
          graphics,
          gameData,
          gamepad,
@@ -302,22 +246,12 @@ export class App {
          settings,
       });
       await gamepad.Init();
-      await this.events.Init();
-      await this.eventsCollisions.Init();
-      await this.eventsPoints.Init();
-      await this.eventsUi.Init();
       await this.init.gameSpeed();
-      await this.points.Init();
-      await this.graphics.Init({
-         eventsEndOfFrame,
-      });
+      await this.graphics.Init();
       await this.ui.Init({
-         events,
-         eventsUi,
          gameLoop,
          highscore,
          input,
-         points,
          settings,
          gameData,
       });

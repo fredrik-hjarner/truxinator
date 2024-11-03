@@ -7,6 +7,7 @@ import { isNumber } from "../../../../utils/typeAssertions.ts";
 import { centerHorizontally } from "./utils/centering.ts";
 import { fontSizes } from "./consts/fontSizes.ts";
 import { FlipCharacters } from "./components/molecules/FlipCharacters.ts";
+import { getPoints } from "../../GameState.ts";
 
 type TConstructor = {
    ui: UI;
@@ -78,7 +79,7 @@ export class EnterHighscore implements IScene {
       // Enter entry then go to Highscore screen.
       this.ui.highscoreService.registerNewEntry({
          name,
-         score: this.ui.points.points
+         score: getPoints(),
       });
       this.ui.SetActiveScene(this.ui.highscore, { rank: this.rank });
    };

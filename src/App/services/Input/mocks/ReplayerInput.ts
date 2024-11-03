@@ -1,6 +1,6 @@
-import type { IGameEvents } from "../../Events/IEvents";
-import type { TInitParams } from "../../IService";
 import type { ButtonsPressed, IInput } from "../IInput";
+
+import { getFrame } from "../../GameState.ts";
 
 type THistory = {
    inputs: Partial<{ [frame: number]: Partial<ButtonsPressed> }>
@@ -19,37 +19,21 @@ export class ReplayerInput implements IInput {
    public readonly name: string;
    /**
     * Keep track of which frame it is "locally" in this object.
-    * the current frame comes with the "frame_tick" event.
-    * Since we want as few dependencies as possible we want to ONLY be dependent on the Events
-    * service and NOT also have to grab FrameCount off the GameLoop service directly.
     */
    private frameCount = 0;
    // From file. Pre-recorded.
    private replay!: THistory;
 
-   // deps/services
-   private events!: IGameEvents;
-
    public constructor({ name }: TConstructor) {
       this.name = name;
    }
 
-   public Init = async (deps?: TInitParams) => {
+   public Init = async () => {
       this.replay = (await import("./replay.ts")).replay as THistory;
+   };
 
-      // TODO: Better type checking
-      // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
-      this.events = deps?.events!;
-
-      this.events.subscribeToEvent(this.name, (event) => {
-         switch(event.type) {
-            case "frame_tick":
-               this.frameCount = event.frameNr;
-               break;
-            default:
-               // NOOP
-         }
-      });
+   public Update = () => {
+      this.frameCount = getFrame(); // TODO: Is this really necessary?
    };
 
    public get ButtonsPressed(): ButtonsPressed {

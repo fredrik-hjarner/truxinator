@@ -1,10 +1,8 @@
 import type { IUI } from "./IUI";
 import type { IScene } from "./Scenes/types/IScene";
-import type { IGameEvents, IUiEvents, TGameEvent } from "../Events/IEvents";
 import type { IGameLoop } from "../GameLoop/IGameLoop";
 import type { TInitParams } from "../IService";
 import type { Highscore as THighscoreService } from "../Highscore/Highscore.ts";
-import type { IPoints } from "../Points/IPoints";
 import type { Settings as TSettingsService } from "../Settings/Settings";
 import type { IInput } from "../Input/IInput";
 import type { GameData } from "../GamaData/GameData";
@@ -27,11 +25,8 @@ export class UI implements IUI {
    public readonly name: string;
 
    // deps/services
-   public events!: IGameEvents;
-   public eventsUi!: IUiEvents;
    public gameLoop!: IGameLoop;
    public highscoreService!: THighscoreService;
-   public points!: IPoints;
    public settingsService!: TSettingsService;
    public input!: IInput;
    public gameData!: GameData;
@@ -68,17 +63,12 @@ export class UI implements IUI {
    public Init = async (deps?: TInitParams) => {
       /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
       // TODO: Better type checking here.
-      this.events = deps?.events!;
-      this.eventsUi = deps?.eventsUi!;
       this.gameLoop = deps?.gameLoop!;
       this.highscoreService = deps?.highscore!;
-      this.points = deps?.points!;
       this.settingsService = deps?.settings!;
       this.input = deps?.input!;
       this.gameData = deps?.gameData!;
       /* eslint-enable @typescript-eslint/no-non-null-asserted-optional-chain */
-
-      this.events.subscribeToEvent(this.name, this.onEvent);
 
       this.SetActiveScene(this.startGame);
       // this.SetActiveScene(this.enterHighscore);
@@ -101,16 +91,9 @@ export class UI implements IUI {
       this.activeScene.render(props);
    };
 
-   private onEvent = (event: TGameEvent) => {
-      switch(event.type) {
-         case "gameOver": {
-            this.gameLoop.pause();
-            this.SetActiveScene(this.gameOver);
-            break;
-         }
-         default:
-            // NOOP
-      }
+   public onGameOver = () => {
+      this.gameLoop.pause();
+      this.SetActiveScene(this.gameOver);
    };
 
    public destroy = () => {
@@ -123,10 +106,13 @@ export class UI implements IUI {
       this.enterHighscore.destroy();
       this.displayControls.destroy();
 
-      // Unsubscribe to events.
-      this.events.unsubscribeToEvent(this.name);
-
       // Unset active scene
       this.activeScene = undefined;
+   };
+
+   public Update = () => {
+      if (this.activeScene) {
+         this.activeScene.update?.(); // TODO: Should ?. really be needed?
+      }
    };
 }

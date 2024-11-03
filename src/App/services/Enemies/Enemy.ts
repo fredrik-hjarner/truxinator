@@ -13,6 +13,7 @@ import { uuid } from "../../../utils/uuid.ts";
 import { resolutionHeight, resolutionWidth } from "../../../consts.ts";
 import { assertNumber, /*, assertString */ isRandomIntParam } from "@/utils/typeAssertions.ts";
 import { EnemyGfx } from "./EnemyGfx.ts";
+import { incrementPoints, setGameOver } from "../GameState.ts";
 
 export class Enemy {
    public id: string;
@@ -24,6 +25,7 @@ export class Enemy {
    private mirrorY = false;
    private actionExecutor: EnemyActionExecutor;
    private gfx?: EnemyGfx; // handle to GraphicsElement from Graphics service.
+   // @ts-ignore name stored but never used.
    private name: string;
    // Keeps track of which collisionTypes this GameObject collided with this frame.
    // This is needed so that it can be checked in the EnemyActionExecutor. must be cleaned/frame.
@@ -142,7 +144,7 @@ export class Enemy {
          attribute: "pointsOnDeath"
       }));
       if(points !== 0) {
-         this.enemies.eventsPoints.dispatchEvent({type: "add_points", enemy: this.name, points });
+         incrementPoints(points);
       }
       if(this.gfx) { // Clear up graphics.
          this.gfx.release();
@@ -225,13 +227,11 @@ export class Enemy {
             this.attrs.decr({ gameObjectId: gameObjectId ?? this.id, attribute, amount });
             break;
          }
-         case AT.finishLevel: // TODO: dispatch some new "finishLevel" event instead.
-            this.enemies.events.dispatchEvent({ type: "gameOver" }); 
+         case AT.finishLevel: // TODO: Refactor? Could probably be called "finishLevel" instead.
+            setGameOver(true);
             break;
-         case AT.addPoints: // TODO: Other actions are one-liners, maybe this should be too?
-            this.enemies.eventsPoints.dispatchEvent({ // TODO: Remove in future. Do points better.
-               type: "add_points", enemy: this.name, points: action.points
-            });
+         case AT.addPoints:
+            incrementPoints(action.points);
             break;
          default:
             this.gfx?.dispatch(action as TGraphicsActionWithoutHandle);

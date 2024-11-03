@@ -25,23 +25,17 @@ type TGfxPoolEntry = {
 
 type TGfxPool = Partial<{ [handle: string]: TGfxPoolEntry }>;
 
-type TConstructor = { name: string };
-
 export class Graphics implements IGraphics {
    public readonly name: string;
    private elementPool: TGfxPool;
    private static readonly poolSize = 150;
 
-   public constructor({ name }: TConstructor) {
-      this.name = name;
+   public constructor() {
+      this.name = "Graphics"; // TODO: I could probably remove the name, I dont think its needed.
       this.elementPool = this.initElementPool();
    }
 
-   public destroy = () => {
-      /**
-       * Unsubscribe from events.
-       */
-      
+   public destroy = () => {     
       /**
         * reset vars
         */

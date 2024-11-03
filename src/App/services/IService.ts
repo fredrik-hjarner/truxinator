@@ -1,6 +1,3 @@
-import type {
-   IEventsCollisions, IEventsEndOfFrame, IEventsPoints, IGameEvents, IUiEvents
-} from "./Events/IEvents";
 import type { Settings } from "./Settings/Settings";
 import type { IInput } from "./Input/IInput";
 import type { IE2eTest } from "./E2eTest/IE2eTest";
@@ -10,7 +7,6 @@ import type { Enemies } from "./Enemies/Enemies";
 import type { GamePad } from "./GamePad/GamePad";
 import type { Collisions } from "./Collisions/Collisions";
 import type { IGameSpeed } from "./GameSpeed/IGameSpeed";
-import type { IPoints } from "./Points/IPoints";
 import type { Highscore } from "./Highscore/Highscore.ts";
 import type { GameData } from "./GamaData/GameData";
 import type { IGraphics } from "./Graphics/IGraphics";
@@ -29,13 +25,7 @@ export type TInitParams = Partial<{
   enemies: Enemies;
   gamepad: GamePad;
   collisions: Collisions;
-  events: IGameEvents;
-  eventsCollisions: IEventsCollisions;
-  eventsEndOfFrame: IEventsEndOfFrame;
-  eventsUi: IUiEvents;
-  eventsPoints: IEventsPoints;
   gameSpeed: IGameSpeed;
-  points: IPoints;
   highscore: Highscore;
   gameData: GameData;
   graphics: IGraphics;
@@ -56,4 +46,10 @@ export interface IService {
    */
   Init: (deps?: TInitParams) => Promise<void>
   // Destroy: () => void
+  // TODO: Maybe call something else like advanceFrame or something? and maybe not even have on
+  // the interface but let services have it on their own interfaces.
+  Update?: () => void;
+
+  // TODO: Maybe I'm getting sloppy adding this here. It's currently only used by E2eTest.ts.
+  onGameOver?: () => void;
 }

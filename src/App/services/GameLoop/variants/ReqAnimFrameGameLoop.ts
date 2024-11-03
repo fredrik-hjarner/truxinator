@@ -1,8 +1,9 @@
 import type  { App } from "../../../App";
 import type { IGameLoop } from "../IGameLoop";
 
-import { millisPerFrame } from "../../../../consts.ts";
+import { enableReduxDevTools, millisPerFrame } from "../../../../consts.ts";
 import { BrowserDriver } from "../../../../drivers/BrowserDriver/index.ts";
+import { getGameOver, incrementFrame, sendDiffToDevTools, setGameOver } from "../../GameState.ts";
 
 type TConstructor = {
    app: App;
@@ -12,7 +13,6 @@ type TConstructor = {
 export class ReqAnimFrameGameLoop implements IGameLoop {
    // vars
    public name: string;
-   public FrameCount: number; // TODO: Make private.
    private nextFrameMillis: number | null;
    public frameSpeedMultiplier: number; // 1 = normal spd. 0 = paused. 2 = twice spd etc.
 
@@ -26,7 +26,6 @@ export class ReqAnimFrameGameLoop implements IGameLoop {
       this.app = app;
       this.name = name;
 
-      this.FrameCount = 0;
       this.nextFrameMillis = null;
       // TODO: Questionable if this should start as 1, but that's how it was.
       this.frameSpeedMultiplier = 1;
@@ -47,12 +46,30 @@ export class ReqAnimFrameGameLoop implements IGameLoop {
 
    // Public because GameSpeed might want control over frames.
    public nextFrame = () => {
-      this.FrameCount++;
-      this.app.events.dispatchEvent({ type: "frame_tick", frameNr: this.FrameCount });
-      this.app.eventsEndOfFrame.dispatchEvent({
-         type: "end_of_frame",
-         frameNr: this.FrameCount
-      });
+      incrementFrame();
+      
+      // TODO: This is duplicate between NodeGameLoop and ReqAnimFrameGameLoop.
+      this.app.e2eTest.Update?.(); // TODO: should ?. really be needed?
+      this.app.input.Update?.(); // TODO: should ?. really be needed?
+      this.app.fps.Update?.(); // TODO: should ?. really be needed?
+      const collisions = this.app.collisions.calculateCollisions();
+      this.app.enemies.storeCollisions(collisions);
+      this.app.enemies.Update?.(); // TODO: should ?. really be needed?
+      // TODO: It would be nice to like skip the graphics or do partial graphics if we're falling
+      // behind.
+      this.app.ui.Update?.(); // TODO: should ?. really be needed?
+
+      if(enableReduxDevTools) {
+         sendDiffToDevTools();
+      }
+
+      if(getGameOver()) {
+         this.app.ui.onGameOver?.(); // TODO: should ?. really be needed?
+         this.app.e2eTest.onGameOver?.(); // TODO: should ?. really be needed?
+         this.app.input.onGameOver?.(); // TODO: should ?. really be needed?
+
+         setGameOver(false);
+      }
    };
 
    /**

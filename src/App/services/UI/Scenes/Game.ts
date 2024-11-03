@@ -1,9 +1,9 @@
 import type { IScene } from "./types/IScene";
-import type { TUiEvent } from "../../Events/IEvents";
 import type { UI } from "../UI";
 
 import { createText } from "./components/atoms/text.ts";
 import { fontSizes } from "./consts/fontSizes.ts";
+import { getPoints } from "../../GameState.ts";
 
 type TConstructor = {
    ui: UI;
@@ -23,7 +23,7 @@ export class Game implements IScene {
 
    public render() {
       this.scoreElement = createText({
-         text: "Score 0",
+         text: `Score ${Math.round(getPoints())}`,
          color: "white",
          fontSize: fontSizes.smallest,
          top: 10,
@@ -38,8 +38,6 @@ export class Game implements IScene {
          top: 10,
          left: 285
       });
-
-      this.ui.eventsUi.subscribeToEvent("GameUI", this.onEvent);
    }
 
    public destroy() {
@@ -48,18 +46,11 @@ export class Game implements IScene {
 
       this.hiscoreElement?.remove();
       this.hiscoreElement = undefined;
-
-      this.ui.events.unsubscribeToEvent("GameUI");
    }
 
-   private onEvent = (event: TUiEvent) => {
-      switch(event.type) {
-         case "uiScoreUpdated": {
-            if(this.scoreElement) {
-               this.scoreElement.innerHTML = `Score ${Math.round(event.points)}`;
-            }
-            break;
-         }
+   public update() {
+      if (this.scoreElement) {
+         this.scoreElement.innerHTML = `Score ${Math.round(getPoints())}`;
       }
-   };
+   }
 }
