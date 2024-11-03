@@ -4,7 +4,7 @@ import type {
 import type { IAttributes, TAttrValue } from "../../Attributes/IAttributes.ts";
 import type { IInput } from "../../Input/IInput.ts";
 import type { GamePad } from "../../GamePad/GamePad.ts";
-import type { Enemy } from "../GameObject.ts";
+import type { GameObject } from "../GameObject.ts";
 import type { IPseudoRandom } from "../../PseudoRandom/IPseudoRandom.ts";
 
 import { ActionType as AT } from "../actions/actionTypes.ts";
@@ -41,7 +41,7 @@ type TEnemyActionExecutorArgs = {
    // You can execute things in parallel with special compound actions like parallelRace.
    actions: TAction[];
    actionHandler: TActionHandler;
-   enemy: Enemy;
+   enemy: GameObject;
    input: IInput;
    gamepad: GamePad;
 }
@@ -52,7 +52,7 @@ export class EnemyActionExecutor {
    private gamepad: GamePad;
 
    private actionHandler: (action: TAction) => void;
-   private enemy: Enemy;
+   private enemy: GameObject;
    private attrs: IAttributes; // attribute service for convenience.
    private pseudoRandom: IPseudoRandom;
    // The only reason I don't have only ONE generator is because of the `fork` action.

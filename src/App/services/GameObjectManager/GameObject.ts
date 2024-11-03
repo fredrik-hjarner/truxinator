@@ -15,7 +15,7 @@ import { assertNumber, /*, assertString */ isRandomIntParam } from "@/utils/type
 import { EnemyGfx } from "./EnemyGfx.ts";
 import { incrementPoints, setGameOver } from "../GameState.ts";
 
-export class Enemy {
+export class GameObject {
    public id: string;
    // public because grabbed in EnemyActionExecutor.
    public enemies: GameObjectManager; // gameObjectManager service

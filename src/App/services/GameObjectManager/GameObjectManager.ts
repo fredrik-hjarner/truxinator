@@ -13,14 +13,14 @@ import type { IEnemies } from "./IEnemies.ts";
 import type { TCollisions } from "../Collisions/Collisions.ts";
 
 import { ActionType as AT } from "./actions/actionTypes.ts";
-import { Enemy } from "./GameObject.ts";
+import { GameObject } from "./GameObject.ts";
 import { getFrame } from "../GameState.ts";
 
 export class GameObjectManager implements IEnemies {
    public readonly name: string;
-   public enemies: { [gameObjectId: string]: Enemy };
+   public enemies: { [gameObjectId: string]: GameObject };
    // Just so that player does not have to be found every time.
-   private memoizedPlayer?: Enemy;
+   private memoizedPlayer?: GameObject;
 
    // deps/services
    private gameData!: GameData;
@@ -98,7 +98,7 @@ export class GameObjectManager implements IEnemies {
        * "Fixed" by moving the OnFrameTick() call to after the push (used to be called at end of
        * Enemy's constructor).
        */
-      const newEnemyInstance = new Enemy(this, position, newEnemyJson);
+      const newEnemyInstance = new GameObject(this, position, newEnemyJson);
       this.enemies[newEnemyInstance.id] = newEnemyInstance;
       // console.log(
       //    `Enemies.Spawn: enemies after push: ${this.enemies.map(e => e.id).toString()}`
@@ -109,7 +109,7 @@ export class GameObjectManager implements IEnemies {
       newEnemyInstance.OnFrameTick();
    };
 
-   public get player(): Enemy {
+   public get player(): GameObject {
       if(this.memoizedPlayer !== undefined) {
          return this.memoizedPlayer;
       }
