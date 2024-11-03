@@ -274,7 +274,6 @@ export class App {
       await this.init.gameSpeed();
       await this.graphics.Init();
       await this.ui.Init({
-         events,
          gameLoop,
          highscore,
          input,
