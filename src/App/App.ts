@@ -246,11 +246,11 @@ export class App {
       await this.collisions.Init({
          attributes,
          enemies,
-         eventsCollisions,
+         eventsCollisions, // TODO: remove this dependency and remove EventCollisions event channel.
       });
       await enemies.Init({
          attributes,
-         eventsCollisions,
+         eventsCollisions, // TODO: remove this dependency and remove EventCollisions event channel.
          graphics,
          gameData,
          gamepad,
