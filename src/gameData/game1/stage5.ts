@@ -1,6 +1,6 @@
 import type { TGameObject } from "../../gameTypes/TGameObject";
 
-import { ActionType as AT } from "@/App/services/Enemies/actions/actionTypes.ts";
+import { ActionType as AT } from "@/App/services/GameObjectManager/actions/actionTypes.ts";
 import { createGameObject, forever, fork, repeat, spawn, wait } from "../utils/utils.ts";
 import { col, row } from "./common.ts";
 

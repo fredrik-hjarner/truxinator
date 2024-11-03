@@ -3,7 +3,7 @@ import type { IInput } from "./Input/IInput";
 import type { IE2eTest } from "./E2eTest/IE2eTest";
 import type { IGameLoop } from "./GameLoop/IGameLoop";
 import type { IFps } from "./Fps/IFps";
-import type { Enemies } from "./Enemies/Enemies";
+import type { Enemies } from "./GameObjectManager/Enemies.ts";
 import type { GamePad } from "./GamePad/GamePad";
 import type { Collisions } from "./Collisions/Collisions";
 import type { IGameSpeed } from "./GameSpeed/IGameSpeed";

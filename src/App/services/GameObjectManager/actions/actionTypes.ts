@@ -1,6 +1,6 @@
-import type { Vector } from "../../../../math/bezier";
-import type { TGraphicsActionWithoutHandle } from "../../Graphics/IGraphics";
-import type { TAttrName, TAttrValue } from "../../Attributes/IAttributes";
+import type { Vector } from "../../../../math/bezier.ts";
+import type { TGraphicsActionWithoutHandle } from "../../Graphics/IGraphics.ts";
+import type { TAttrName, TAttrValue } from "../../Attributes/IAttributes.ts";
 
 /**
  * Action type enum.

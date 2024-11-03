@@ -1,7 +1,7 @@
-import type { Vector as TVector } from "../../../math/bezier";
+import type { Vector as TVector } from "../../../math/bezier.ts";
 import type {
    IGraphics, TGraphicsActionWithoutHandle , TResponse_AskForElement
-} from "../Graphics/IGraphics";
+} from "../Graphics/IGraphics.ts";
 
 import { ActionType as AT } from "./actions/actionTypes.ts";
 import { BrowserDriver } from "../../../drivers/BrowserDriver/index.ts";

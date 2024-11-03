@@ -1,9 +1,9 @@
 import type {
    TAction, TInputButton, TNumber, TRotateAroundAbsolutePoint, TRotateAroundRelativePoint, TString
 } from "../actions/actionTypes.ts";
-import type { IAttributes, TAttrValue } from "../../Attributes/IAttributes";
-import type { IInput } from "../../Input/IInput";
-import type { GamePad } from "../../GamePad/GamePad";
+import type { IAttributes, TAttrValue } from "../../Attributes/IAttributes.ts";
+import type { IInput } from "../../Input/IInput.ts";
+import type { GamePad } from "../../GamePad/GamePad.ts";
 import type { Enemy } from "../Enemy.ts";
 import type { IPseudoRandom } from "../../PseudoRandom/IPseudoRandom.ts";
 

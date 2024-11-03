@@ -19,7 +19,7 @@ import type { ICollisions } from "./services/Collisions/ICollisions";
  * Services
  */
 import { CursorShowGamePos } from "./services/CursorShowGamePos/CursorShowGamePos.ts";
-import { Enemies } from "./services/Enemies/Enemies.ts";
+import { Enemies } from "./services/GameObjectManager/Enemies.ts";
 //@ts-ignore
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Fps } from "./services/Fps/Fps.ts";

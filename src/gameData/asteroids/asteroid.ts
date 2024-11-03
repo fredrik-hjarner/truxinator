@@ -1,7 +1,7 @@
-import type { TAction } from "../../App/services/Enemies/actions/actionTypes.ts";
+import type { TAction } from "../../App/services/GameObjectManager/actions/actionTypes.ts";
 import type { TSpawnParams } from "../utils/utils.ts";
 
-import { ActionType as AT } from "../../App/services/Enemies/actions/actionTypes.ts";
+import { ActionType as AT } from "../../App/services/GameObjectManager/actions/actionTypes.ts";
 import {
    attr,
    createGameObject,

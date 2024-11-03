@@ -1,8 +1,8 @@
 import type { TAction } from "./actions/actionTypes.ts";
-import type { Vector as TVector } from "../../../math/bezier";
-import type { IGraphics, TGraphicsActionWithoutHandle } from "../Graphics/IGraphics";
-import type { Enemies } from "./Enemies";
-import type { TGameObject } from "../../../gameTypes/TGameObject";
+import type { Vector as TVector } from "../../../math/bezier.ts";
+import type { IGraphics, TGraphicsActionWithoutHandle } from "../Graphics/IGraphics.ts";
+import type { Enemies } from "./Enemies.ts";
+import type { TGameObject } from "../../../gameTypes/TGameObject.ts";
 
 import { ActionType as AT } from "./actions/actionTypes.ts";
 import { EnemyActionExecutor } from "./ActionExecutor/EnemyActionExecutor.ts";

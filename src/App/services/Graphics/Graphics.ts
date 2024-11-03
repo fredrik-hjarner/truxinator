@@ -6,7 +6,7 @@ import type {
 } from "./IGraphics";
 import type { Vector as TVector } from "../../../math/bezier";
 
-import { ActionType as AT } from "../Enemies/actions/actionTypes.ts";
+import { ActionType as AT } from "../GameObjectManager/actions/actionTypes.ts";
 import { resolutionWidth } from "../../../consts.ts";
 import { uuid } from "../../../utils/uuid.ts";
 import { BrowserDriver } from "../../../drivers/BrowserDriver/index.ts";

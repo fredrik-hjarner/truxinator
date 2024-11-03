@@ -1,4 +1,4 @@
-import { ActionType as AT } from "../../../App/services/Enemies/actions/actionTypes.ts";
+import { ActionType as AT } from "../../../App/services/GameObjectManager/actions/actionTypes.ts";
 import {
    createGameObject,
    fork,

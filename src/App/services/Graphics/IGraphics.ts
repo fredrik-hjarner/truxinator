@@ -1,7 +1,7 @@
-import type { IService } from "../IService";
-import type { IDestroyable } from "../../../utils/types/IDestroyable";
-import type { ActionType as AT } from "../Enemies/actions/actionTypes.ts";
 import type { LiteralUnion } from "type-fest";
+import type { IService } from "../IService.ts";
+import type { IDestroyable } from "../../../utils/types/IDestroyable.ts";
+import type { ActionType as AT } from "../GameObjectManager/actions/actionTypes.ts";
 
 export type THandle = string;
 

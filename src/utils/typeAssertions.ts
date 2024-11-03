@@ -1,4 +1,4 @@
-import type { TRandomInt } from "@/App/services/Enemies/actions/actionTypes.ts";
+import type { TRandomInt } from "@/App/services/GameObjectManager/actions/actionTypes.ts";
 
 import { BrowserDriver } from "../drivers/BrowserDriver/index.ts";
 import { IsBrowser } from "../drivers/BrowserDriver/IsBrowser.ts";

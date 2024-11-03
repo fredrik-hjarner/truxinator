@@ -4,9 +4,9 @@ import type {
    TAction,
    TMove,
    TShootDirection
-} from "../../App/services/Enemies/actions/actionTypes.ts";
+} from "../../App/services/GameObjectManager/actions/actionTypes.ts";
 
-import { ActionType as AT } from "../../App/services/Enemies/actions/actionTypes.ts";
+import { ActionType as AT } from "../../App/services/GameObjectManager/actions/actionTypes.ts";
 import {
    attr, createGameObject, forever, fork, moveToAbsolute, parallelAll, parallelRace,
    repeat, setShotSpeed, setSpeed, spawn, thrice, twice, wait

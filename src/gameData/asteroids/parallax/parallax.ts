@@ -4,7 +4,7 @@ import {
    createGameObject,
    spawn,
 } from "@/gameData/utils/utils.ts";
-import { ActionType as AT } from "@/App/services/Enemies/actions/actionTypes.ts";
+import { ActionType as AT } from "@/App/services/GameObjectManager/actions/actionTypes.ts";
 
 export const parallax: TGameObject = createGameObject({
    name: "parallax",

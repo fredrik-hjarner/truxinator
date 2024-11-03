@@ -1,4 +1,4 @@
-import type { TAction } from "../App/services/Enemies/actions/actionTypes.ts";
+import type { TAction } from "../App/services/GameObjectManager/actions/actionTypes.ts";
 
 /**
  * This is the type of a GameObject used when you create a new GameObject.
