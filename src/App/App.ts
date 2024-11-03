@@ -249,7 +249,6 @@ export class App {
       await this.collisions.Init({
          attributes,
          enemies,
-         events,
          eventsCollisions,
       });
       await enemies.Init({

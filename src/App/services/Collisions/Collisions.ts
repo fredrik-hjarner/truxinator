@@ -1,5 +1,5 @@
 import type { Enemies } from "../Enemies/Enemies";
-import type { IEventsCollisions, IGameEvents } from "../Events/IEvents";
+import type { IEventsCollisions } from "../Events/IEvents";
 import type { IService, TInitParams } from "../IService";
 import type { IAttributes } from "../Attributes/IAttributes";
 
@@ -34,7 +34,6 @@ export class Collisions implements IService {
    public accumulatedTime = 0;
    
    // deps/services
-   private events!: IGameEvents;
    private eventsCollisions!: IEventsCollisions;
    private enemies!: Enemies;
    private attributes!: IAttributes;
@@ -56,26 +55,13 @@ export class Collisions implements IService {
    public Init = async (deps?: TInitParams) => {
       /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
       // TODO: Better type checking.
-      this.events = deps?.events!;
       this.eventsCollisions = deps?.eventsCollisions!;
       this.enemies = deps?.enemies!;
       this.attributes = deps?.attributes!;
       /* eslint-enable @typescript-eslint/no-non-null-asserted-optional-chain */
-      
-      this.events.subscribeToEvent(
-         this.name,
-         ({ type }) => {
-            if(type === "frame_tick") {
-               this.update();
-            }
-         }
-      );
    };
 
-   /**
-    * Private
-    */
-   private update = () => {
+   public Update = () => {
       const startTime = BrowserDriver.PerformanceNow();
 
       // variable in which to store all collisions.
@@ -130,6 +116,9 @@ export class Collisions implements IService {
       }
    };
 
+   /**
+    * Private
+    */
    private calcCollision = (
       params: { doesThis: PosAndRadiusAndId, collideWithThis: PosAndRadiusAndId }
    ): boolean => {

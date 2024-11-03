@@ -50,6 +50,7 @@ export class ReqAnimFrameGameLoop implements IGameLoop {
       
       this.app.e2eTest.Update?.(); // TODO: should ?. really be needed?
       this.app.input.Update?.(); // TODO: should ?. really be needed?
+      this.app.collisions.Update?.(); // TODO: should ?. really be needed?
 
       // TODO: Eventually remove these two calls and replace with running each thing in sequence.
       this.app.events.dispatchEvent({ type: "frame_tick" });
