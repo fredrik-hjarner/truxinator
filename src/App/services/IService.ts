@@ -22,7 +22,7 @@ export type TInitParams = Partial<{
   input: IInput;
   gameLoop: IGameLoop;
   fps: IFps;
-  enemies: GameObjectManager;
+  gameObjectManager: GameObjectManager;
   gamepad: GamePad;
   collisions: Collisions;
   gameSpeed: IGameSpeed;

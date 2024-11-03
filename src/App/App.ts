@@ -204,7 +204,7 @@ export class App {
       const {
          attributes,
          // collisions,
-         gameObjectManager: enemies, // TODO: rename to gameObjectManager
+         gameObjectManager,
          gameLoop, gamepad, graphics,
          highscore,
          input,
@@ -227,16 +227,16 @@ export class App {
       await input.Init();
       await gameLoop.Init();
       await this.init.fps();
-      // Note order of init: input -> collisions -> enemies -> graphics
+      // Note order of init: input -> collisions -> gameObjectManager -> graphics
       // Maybe another order would make more sense?
       // The current order: you move an enemy into a collision group, then you check for collisions
       // then enemies reponds to the collisions (in Enemies.tick), then all enemies clear their
       // `collidedWithCollisionTypesThisFrame`.
       await this.collisions.Init({
          attributes,
-         enemies, // TODO: rename to gameObjectManager
+         gameObjectManager,
       });
-      await enemies.Init({ // TODO: rename to gameObjectManager
+      await gameObjectManager.Init({
          attributes,
          graphics,
          gameData,

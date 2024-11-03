@@ -63,8 +63,8 @@ export class EnemyActionExecutor {
       const { actions, actionHandler, enemy, input, gamepad } = params;
       this.actionHandler = actionHandler;
       this.enemy = enemy;
-      this.attrs = enemy.enemies.attributes; // for convenience.
-      this.pseudoRandom = enemy.enemies.pseudoRandom; // for convenience.
+      this.attrs = enemy.gameObjectManager.attributes; // for convenience.
+      this.pseudoRandom = enemy.gameObjectManager.pseudoRandom; // for convenience.
       this.input = input;
       this.gamepad = gamepad;
       this.generators = [this.makeGenerator(actions)];

@@ -33,7 +33,7 @@ export class Collisions implements IService {
    public accumulatedTime = 0;
    
    // deps/services
-   private enemies!: GameObjectManager;
+   private gameObjectManager!: GameObjectManager;
    private attributes!: IAttributes;
 
    /**
@@ -53,7 +53,7 @@ export class Collisions implements IService {
    public Init = async (deps?: TInitParams) => {
       /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
       // TODO: Better type checking.
-      this.enemies = deps?.enemies!;
+      this.gameObjectManager = deps?.gameObjectManager!;
       this.attributes = deps?.attributes!;
       /* eslint-enable @typescript-eslint/no-non-null-asserted-optional-chain */
    };
@@ -64,7 +64,7 @@ export class Collisions implements IService {
       // variable in which to store all collisions.
       const collisions: TCollisions = {};
 
-      const enemiesThatCanCollide = Object.values(this.enemies.enemies)
+      const enemiesThatCanCollide = Object.values(this.gameObjectManager.enemies)
          .filter((enemy) => {
             const collisionType = this.attributes.getAttribute({
                gameObjectId: enemy.id,
