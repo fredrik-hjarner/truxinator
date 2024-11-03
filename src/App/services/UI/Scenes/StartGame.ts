@@ -58,7 +58,7 @@ export class StartGame implements IScene {
 
       this.version = createText({
          // text: packageJson.version,
-         text: "0.7.0",
+         text: "0.7.1",
          fontSize: fontSizes.smallest,
          top: 225,
          // top: 0,
