@@ -21,6 +21,7 @@ export type TAttrName = LiteralUnion<
    string
 >
 
+// Observe!! Object types like this should be in Partial<> to signal that keys may not exist.
 export type TAttributes = {
    gameObjects: Partial<{
       [gameObjectId: string]: Partial<{

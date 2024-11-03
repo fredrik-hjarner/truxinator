@@ -36,6 +36,7 @@ export class Attributes implements IAttributes {
          const msg = `Attribute:  Attribute "${attribute}" does not exist.`;
          console.warn(msg);
       }
+      // guaranteed to exist since previous if case.
       return value!;
    };
 
