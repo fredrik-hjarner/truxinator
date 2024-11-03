@@ -21,6 +21,7 @@ export const dot: TGameObject = createGameObject({
       )),
       fork(
          { type: AT.waitUntilAttrIs, attr: "hp", is: 0 },
+         { type: AT.setAttribute, attribute: "pointsOnDeath", value: 50 },
          spawn("roundExplosion"),
          { type: AT.despawn },
       ),

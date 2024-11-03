@@ -477,3 +477,6 @@ to replace each composite actions with more primitive actions.
 * Graphics and Enemies are very tightly coupled. It would be nicer if Enemies updated their graphics
   stuff via attributes, then afterwards Graphics service runs, checks the attributes and updates the
   graphics accordingly so that it would look more like a pipeline.
+
+* I need to release a 0.7.1 because I have screwed up the points that you get when you kill enemies.
+  You actually get the points when the despawn no matter how they despawn.

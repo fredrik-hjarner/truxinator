@@ -91,6 +91,7 @@ export const boss: TGameObject = createGameObject({
       )),
       fork(
          { type: AT.waitUntilAttrIs, attr: "hp", is: 0 },
+         { type: AT.setAttribute, attribute: "pointsOnDeath", value: 10000 },
          spawn("bossCorpse"),
          { type: AT.despawn },
       ),

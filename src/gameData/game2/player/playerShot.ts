@@ -15,7 +15,7 @@ export const playerShot: TGameObject = createGameObject({
       ),
       { type: AT.setAttribute, attribute: "collisionType", value: "playerBullet" },
       // TODO: is points really necessary for this?
-      { type: AT.setAttribute, attribute: "pointsOnDeath", value: -1 },
+      { type: AT.setAttribute, attribute: "pointsOnDeath", value: -0.5 },
       { type: AT.gfxSetShape, shape: "circle" },
       { type: AT.gfxSetColor, color: "aqua" },
    ],

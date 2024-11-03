@@ -74,10 +74,10 @@ export const nonShootingAimer: TGameObject = createGameObject({
       )),
       fork(
          { type: AT.waitUntilAttrIs, attr: "hp", is: 0 },
+         { type: AT.setAttribute, attribute: "pointsOnDeath", value: 25 },
          spawn("roundExplosion"),
          { type: AT.despawn },
       ),
-      { type: AT.setAttribute, attribute: "pointsOnDeath", value: 25 },
       setSpeed(1.6),
       parallelAll(
          repeat(26.25, [
@@ -132,10 +132,10 @@ export const sinus: TGameObject = createGameObject({
       )),
       fork(
          { type: AT.waitUntilAttrIs, attr: "hp", is: 0 },
+         { type: AT.setAttribute, attribute: "pointsOnDeath", value: 25 },
          spawn("roundExplosion"),
          { type: AT.despawn },
       ),
-      { type: AT.setAttribute, attribute: "pointsOnDeath", value: 25 },
       setShotSpeed(2),
       attr("right", { value: true, yes: [{ type: AT.mirrorX, value: true }] }),
       twice(
@@ -220,10 +220,10 @@ export const firstMiniboss: TGameObject = createGameObject({
       )),
       fork(
          { type: AT.waitUntilAttrIs, attr: "hp", is: 0 },
+         { type: AT.setAttribute, attribute: "pointsOnDeath", value: 1000 },
          spawn("roundExplosion"),
          { type: AT.despawn },
       ),
-      { type: AT.setAttribute, attribute: "pointsOnDeath", value: 1000 },
       parallelRace(
          shootingPattern,
          movementPattern
