@@ -54,4 +54,7 @@ export interface IService {
   // TODO: Eventually all services should make use of this Update method instead of listening to
   //events.
   Update?: () => void;
+
+  // TODO: Maybe I'm getting sloppy adding this here. It's currently only used by E2eTest.ts.
+  onGameOver?: () => void;
 }

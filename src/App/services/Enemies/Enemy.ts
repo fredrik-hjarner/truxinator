@@ -13,7 +13,7 @@ import { uuid } from "../../../utils/uuid.ts";
 import { resolutionHeight, resolutionWidth } from "../../../consts.ts";
 import { assertNumber, /*, assertString */ isRandomIntParam } from "@/utils/typeAssertions.ts";
 import { EnemyGfx } from "./EnemyGfx.ts";
-import { incrementPoints } from "../GameState.ts";
+import { incrementPoints, setGameOver } from "../GameState.ts";
 
 export class Enemy {
    public id: string;
@@ -228,7 +228,7 @@ export class Enemy {
             break;
          }
          case AT.finishLevel: // TODO: dispatch some new "finishLevel" event instead.
-            this.enemies.events.dispatchEvent({ type: "gameOver" }); 
+            setGameOver(true);
             break;
          case AT.addPoints:
             incrementPoints(action.points);

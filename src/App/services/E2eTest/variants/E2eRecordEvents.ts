@@ -1,8 +1,4 @@
-import type {
-   IGameEvents, TGameEvent,
-} from "../../Events/IEvents";
 import type { IE2eTest } from "../IE2eTest";
-import type { TInitParams } from "../../IService";
 
 import { gameState, getFrame } from "../../GameState.ts";
 
@@ -25,43 +21,32 @@ export class E2eRecordEvents implements IE2eTest {
    // Store it later in file that has, so to speak, been pre-recorded.
    private history: THistory = [];
 
-   // deps/services
-   private events!: IGameEvents;
 
    public constructor({ name }: TConstructor) {
       this.name = name;
    }
 
-   // eslint-disable-next-line @typescript-eslint/require-await
-   public Init = async (deps?: TInitParams) => {
-      // TODO: Replace typecast with type guard.
-      /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
-      this.events = deps?.events!;
-      /* eslint-enable @typescript-eslint/no-non-null-asserted-optional-chain */
+   // eslint-disable-next-line @typescript-eslint/no-empty-function
+   public Init = async () => {};
 
-      // TODO: These are not unsubscribed to.
-      this.events.subscribeToEvent(this.name, this.onEvent);
+   public onGameOver = () => {
+      console.log("E2eRecordEvents.history:");
+      console.log(this.history);
+      // TODO: Should it destruct itself or something here?
    };
 
-   private onEvent = (event: TGameEvent) => {
-      if (event.type === "gameOver") {
-         console.log("E2eRecordEvents.history:");
-         console.log(this.history);
-         // TODO: Should it destruct itself or something here?
+   public Update = () => {
+      const lastFrame = getFrame() - 1;
+      // (first frame is frame nr 1 though)
+      if(lastFrame < 0) {
+         return;
       }
-      if (event.type === "frame_tick") {
-         const lastFrame = getFrame() - 1;
-         // (first frame is frame nr 1 though)
-         if(lastFrame < 0) {
-            return;
-         }
-         if(!this.history[lastFrame]) { // TODO: really if-case not needed should always be set {}.
-            this.history[lastFrame] = {};
-         }
-         // grab attributes and store them in history.
-         for (const [gameObjectId, attribute] of Object.entries(gameState.gameObjects)) {
-            this.history[lastFrame][gameObjectId] = attribute?.hp;
-         }
+      if(!this.history[lastFrame]) { // TODO: really if-case not needed should always be set {}.
+         this.history[lastFrame] = {};
+      }
+      // grab attributes and store them in history.
+      for (const [gameObjectId, attribute] of Object.entries(gameState.gameObjects)) {
+         this.history[lastFrame][gameObjectId] = attribute?.hp;
       }
    };
 }

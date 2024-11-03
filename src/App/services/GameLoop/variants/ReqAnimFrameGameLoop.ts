@@ -3,7 +3,7 @@ import type { IGameLoop } from "../IGameLoop";
 
 import { enableReduxDevTools, millisPerFrame } from "../../../../consts.ts";
 import { BrowserDriver } from "../../../../drivers/BrowserDriver/index.ts";
-import { incrementFrame, sendDiffToDevTools } from "../../GameState.ts";
+import { getGameOver, incrementFrame, sendDiffToDevTools, setGameOver } from "../../GameState.ts";
 
 type TConstructor = {
    app: App;
@@ -47,15 +47,26 @@ export class ReqAnimFrameGameLoop implements IGameLoop {
    // Public because GameSpeed might want control over frames.
    public nextFrame = () => {
       incrementFrame();
+      
+      this.app.e2eTest.Update?.(); // TODO: should ?. really be needed?
 
       // TODO: Eventually remove these two calls and replace with running each thing in sequence.
       this.app.events.dispatchEvent({ type: "frame_tick" });
 
       // TODO: I want all the different stuff to run here in sequence
+      // TODO: This is duplicate between NodeGameLoop and ReqAnimFrameGameLoop.
       this.app.ui.Update?.(); // TODO: should ?. really be needed?
 
       if(enableReduxDevTools) {
          sendDiffToDevTools();
+      }
+
+      if(getGameOver()) {
+         this.app.ui.onGameOver?.(); // TODO: should ?. really be needed?
+         this.app.e2eTest.onGameOver?.(); // TODO: should ?. really be needed?
+         this.app.input.onGameOver?.(); // TODO: should ?. really be needed?
+
+         setGameOver(false);
       }
    };
 

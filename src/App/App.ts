@@ -85,9 +85,9 @@ export class App {
    // every service can access every other service and it's thus impossible to know what service has
    // what service as a dependencies.
    private cursorShowGamePos: ICursorShowGamePos;
-   private e2eTest: IE2eTest;
+   public e2eTest: IE2eTest;
    private settings: Settings;
-   private input: IInput;
+   public input: IInput;
    public gameLoop: IGameLoop;
    public fps: IFps;
    public enemies: Enemies;
@@ -238,9 +238,7 @@ export class App {
 
       // We want this first so that it can subscribe to shit and record last frame ASAP before
       // the next frame.
-      await this.e2eTest.Init({
-         events,
-      });
+      await this.e2eTest.Init();
       await this.init.cursorShowGamePos();
       await settings.Init();
       await input.Init({

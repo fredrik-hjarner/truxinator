@@ -64,12 +64,13 @@ export class Input implements IInput {
             case "frame_tick":
                this.frameCount = getFrame();
                break;
-            case "gameOver":
-               console.log("Input.history:");
-               console.log(this.history);
-               break;
          }
       });
+   };
+
+   public onGameOver = () => {
+      console.log("Input.history:");
+      console.log(this.history);
    };
 
    public get ButtonsPressed(): ButtonsPressed {

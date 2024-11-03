@@ -2,7 +2,7 @@ import type  { App } from "../../../App";
 import type { IGameLoop } from "../IGameLoop";
 
 import { BrowserDriver } from "../../../../drivers/BrowserDriver/index.ts";
-import { incrementFrame } from "../../GameState.ts";
+import { getGameOver, incrementFrame, setGameOver } from "../../GameState.ts";
 
 type TConstructor = {
    app: App;
@@ -43,10 +43,22 @@ export class NodeGameLoop implements IGameLoop {
    public nextFrame = () => {
       incrementFrame();
 
+      this.app.e2eTest.Update?.(); // TODO: should ?. really be needed?
+
       // TODO: Eventually remove these two calls and replace with running each thing in sequence.
       this.app.events.dispatchEvent({ type: "frame_tick" });
 
       // TODO: I want all the different stuff to run here in sequence
+      // TODO: This is duplicate between NodeGameLoop and ReqAnimFrameGameLoop.
+      this.app.ui.Update?.(); // TODO: should ?. really be needed?
+
+      if(getGameOver()) {
+         this.app.ui.onGameOver?.(); // TODO: should ?. really be needed?
+         this.app.e2eTest.onGameOver?.(); // TODO: should ?. really be needed?
+         this.app.input.onGameOver?.(); // TODO: should ?. really be needed?
+
+         setGameOver(false);
+      }
    };
 
    /**

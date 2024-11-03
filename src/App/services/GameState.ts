@@ -6,12 +6,15 @@ type TGameState = {
    frame: number;
    gameObjects: TAttributes["gameObjects"];
    points: number;
+   // TODO: This is a bit sloppy. Maybe have some kind of "gameState" instead?
+   gameOver: boolean;
 };
 
 export let gameState: TGameState = {
    frame: 0,
    gameObjects: {},
    points: 0,
+   gameOver: false,
 };
 
 /* eslint-disable */
@@ -25,6 +28,15 @@ BrowserDriver.WithWindow((window) => {
 });
 /* eslint-enable */
 
+/* GAMEOVER */
+export function getGameOver(): boolean {
+   return gameState.gameOver;
+}
+export function setGameOver(gameOver: boolean): void {
+   gameState = { ...gameState, gameOver };
+}
+
+/* FRAME */
 export function getFrame(): number {
    return gameState.frame;
 }

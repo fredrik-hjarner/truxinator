@@ -1,6 +1,5 @@
 import type { IUI } from "./IUI";
 import type { IScene } from "./Scenes/types/IScene";
-import type { IGameEvents, TGameEvent } from "../Events/IEvents";
 import type { IGameLoop } from "../GameLoop/IGameLoop";
 import type { TInitParams } from "../IService";
 import type { Highscore as THighscoreService } from "../Highscore/Highscore.ts";
@@ -26,7 +25,6 @@ export class UI implements IUI {
    public readonly name: string;
 
    // deps/services
-   public events!: IGameEvents;
    public gameLoop!: IGameLoop;
    public highscoreService!: THighscoreService;
    public settingsService!: TSettingsService;
@@ -65,15 +63,12 @@ export class UI implements IUI {
    public Init = async (deps?: TInitParams) => {
       /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
       // TODO: Better type checking here.
-      this.events = deps?.events!;
       this.gameLoop = deps?.gameLoop!;
       this.highscoreService = deps?.highscore!;
       this.settingsService = deps?.settings!;
       this.input = deps?.input!;
       this.gameData = deps?.gameData!;
       /* eslint-enable @typescript-eslint/no-non-null-asserted-optional-chain */
-
-      this.events.subscribeToEvent(this.name, this.onEvent);
 
       this.SetActiveScene(this.startGame);
       // this.SetActiveScene(this.enterHighscore);
@@ -96,16 +91,9 @@ export class UI implements IUI {
       this.activeScene.render(props);
    };
 
-   private onEvent = (event: TGameEvent) => {
-      switch(event.type) {
-         case "gameOver": {
-            this.gameLoop.pause();
-            this.SetActiveScene(this.gameOver);
-            break;
-         }
-         default:
-            // NOOP
-      }
+   public onGameOver = () => {
+      this.gameLoop.pause();
+      this.SetActiveScene(this.gameOver);
    };
 
    public destroy = () => {
@@ -117,9 +105,6 @@ export class UI implements IUI {
       this.highscore.destroy();
       this.enterHighscore.destroy();
       this.displayControls.destroy();
-
-      // Unsubscribe to events.
-      this.events.unsubscribeToEvent(this.name);
 
       // Unset active scene
       this.activeScene = undefined;
