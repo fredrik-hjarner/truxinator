@@ -1,6 +1,4 @@
-import type {
-   IEventsCollisions, IGameEvents,
-} from "./Events/IEvents";
+import type { IEventsCollisions } from "./Events/IEvents";
 import type { Settings } from "./Settings/Settings";
 import type { IInput } from "./Input/IInput";
 import type { IE2eTest } from "./E2eTest/IE2eTest";
@@ -28,7 +26,6 @@ export type TInitParams = Partial<{
   enemies: Enemies;
   gamepad: GamePad;
   collisions: Collisions;
-  events: IGameEvents;
   eventsCollisions: IEventsCollisions;
   gameSpeed: IGameSpeed;
   highscore: Highscore;

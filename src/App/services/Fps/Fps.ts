@@ -1,6 +1,5 @@
 import type  { App } from "../../App";
 import type { IFps } from "./IFps";
-import type { TGameEvent } from "../Events/IEvents";
 
 import { round } from "../../../utils/round.ts";
 import { BrowserDriver } from "../../../drivers/BrowserDriver/index.ts";
@@ -46,9 +45,6 @@ export class Fps implements IFps {
 
    // eslint-disable-next-line @typescript-eslint/require-await
    public Init = async () => {
-      // TODO: Never unsubscribes to this !!!
-      this.app.events.subscribeToEvent(this.name, this.handleEvent);
-
       // TODO: remove duplication. Have common/duped code in common function.
       this.elapsedTimeDiv && (this.elapsedTimeDiv.innerHTML = `elapsed: 0s`);
       this.framCounterDiv && (this.framCounterDiv.innerHTML = `frames: 0`);
@@ -60,11 +56,6 @@ export class Fps implements IFps {
    };
 
    public destroy = () => {
-      /**
-       * Unsubscribe from events.
-       */
-      this.app.events.unsubscribeToEvent(this.name);
-      
       /**
        * reset vars
        */
@@ -86,14 +77,7 @@ export class Fps implements IFps {
       this.maxWebWorkers = undefined;
    };
 
-   /**
-    * Private
-    */
-   private handleEvent = (event: TGameEvent) => {
-      if(event.type !== "frame_tick") {
-         return;
-      }
-
+   public Update = () => {
       if(this.startTime === null) {
          this.startTime = BrowserDriver.PerformanceNow();
       }

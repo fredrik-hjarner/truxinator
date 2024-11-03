@@ -61,6 +61,7 @@ export class Collisions implements IService {
       /* eslint-enable @typescript-eslint/no-non-null-asserted-optional-chain */
    };
 
+   // TODO: Rename and return collisions. Collisions are then put into Enemies.Update or something.
    public Update = () => {
       const startTime = BrowserDriver.PerformanceNow();
 

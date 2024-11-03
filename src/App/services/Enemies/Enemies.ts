@@ -3,7 +3,7 @@ import type { IService, TInitParams } from "../IService";
 import type { GameData } from "../GamaData/GameData";
 import type { TGameObject } from "../../../gameTypes/TGameObject";
 import type {
-   IEventsCollisions, IGameEvents, TCollisionsEvent, TGameEvent
+   IEventsCollisions, TCollisionsEvent,
 } from "../Events/IEvents";
 import type { IGraphics } from "../Graphics/IGraphics";
 import type { GamePad } from "../GamePad/GamePad";
@@ -25,7 +25,6 @@ export class Enemies implements IService {
 
    // deps/services
    private gameData!: GameData;
-   public events!: IGameEvents;
    public eventsCollisions!: IEventsCollisions;
    public graphics!: IGraphics;
    public input!: IInput;
@@ -52,7 +51,6 @@ export class Enemies implements IService {
    public Init = async (deps?: TInitParams) => {
       /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
       // TODO: Better type checking.
-      this.events = deps?.events!;
       this.eventsCollisions = deps?.eventsCollisions!;
       this.gameData = deps?.gameData!;
       this.graphics = deps?.graphics!;
@@ -63,7 +61,6 @@ export class Enemies implements IService {
       this.pseudoRandom = deps?.pseudoRandom!;
       /* eslint-enable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-      this.events.subscribeToEvent(this.name, this.handleEvent);
       this.eventsCollisions.subscribeToEvent(this.name, this.handleEvent);
    };
 
@@ -135,35 +132,34 @@ export class Enemies implements IService {
       return player;
    }
 
-   // TODO: Push this down into Enemy, so that onFramTick and OnCollisions can be private
-   private handleEvent = (event: TGameEvent | TCollisionsEvent) => {
-      switch(event.type) {
-         // TODO: Should send frameNumber/FrameCount as paybload in frame_tick event.
-         case "frame_tick": {
-            /**
-             * Spawn the spawner on the first frame
-             */
-            if(getFrame() === 1) {
-               /**
-                * The "spawner" enemy is not a normal enemy.
-                * It can do everything that an enemy can do, but it's
-                * primary purpose is to auto-spawn at [0, 0] and
-                * be resposible for spawning enemies.
-                */
-               this.Spawn({ enemy: "spawner", position: { x:0, y: 0 } });
-            }
+   public Update = () => {
+      /**
+       * Spawn the spawner on the first frame
+       */
+      if(getFrame() === 1) {
+         /**
+          * The "spawner" enemy is not a normal enemy.
+          * It can do everything that an enemy can do, but it's
+          * primary purpose is to auto-spawn at [0, 0] and
+          * be resposible for spawning enemies.
+          */
+         this.Spawn({ enemy: "spawner", position: { x:0, y: 0 } });
+      }
 
-            /**
-             * TODO: Here we see that the first tick happens immediately at spawn so I could,
-             * if I wanted to, actually set everything in the actions as actions such as set
-             * hp, set_position etc. Dunno if I want to do it like that though.
-             */
-            // console.log(`Enemies.tick: enemies:`, this.enemies.map(e => e.id));
-            for (const enemy of Object.values(this.enemies)) {
-               enemy.OnFrameTick();
-            }
-            break;
-         }
+      /**
+       * TODO: Here we see that the first tick happens immediately at spawn so I could,
+       * if I wanted to, actually set everything in the actions as actions such as set
+       * hp, set_position etc. Dunno if I want to do it like that though.
+       */
+      // console.log(`Enemies.tick: enemies:`, this.enemies.map(e => e.id));
+      for (const enemy of Object.values(this.enemies)) {
+         enemy.OnFrameTick();
+      }
+   };
+
+   // TODO: Push this down into Enemy, so that onFramTick and OnCollisions can be private
+   private handleEvent = (event: TCollisionsEvent) => {
+      switch(event.type) {
          case "collisions": // max 1 collision event per frame. Collisions service only emits 1 evt
             for (const [enemyId, collisionTypes] of Object.entries(event.collisions)) {
                const enemy = this.enemies[enemyId];

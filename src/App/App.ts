@@ -7,8 +7,7 @@ import type { IFps } from "./services/Fps/IFps";
 import type { IGraphics } from "./services/Graphics/IGraphics";
 import type { IUI } from "./services/UI/IUI";
 import type {
-   IEventsCollisions, IGameEvents, TCollisionsEvent,
-   TGameEvent,
+   IEventsCollisions, TCollisionsEvent,
 } from "./services/Events/IEvents";
 import type { IGameSpeed } from "./services/GameSpeed/IGameSpeed";
 import type { IFullscreen } from "./services/Fullscreen/IFullscreen";
@@ -90,7 +89,6 @@ export class App {
    public enemies: Enemies;
    public gamepad: GamePad;
    public collisions: Collisions;
-   public events: IGameEvents;
    public eventsCollisions: IEventsCollisions;
    public gameSpeed: IGameSpeed;
    public highscore: Highscore;
@@ -146,7 +144,6 @@ export class App {
 
       /* The events services are event channels passing events with
        * `dispatchEvent` and `subscribeToEvent` functions */
-      this.events =           new Events<TGameEvent>({ app: this, name: "events" });
       this.eventsCollisions = new Events<TCollisionsEvent>({ app: this, name: "eventsCollisions" });
 
       this.gameSpeed = this.construct.gameSpeed();
@@ -218,7 +215,7 @@ export class App {
          attributes,
          // collisions,
          enemies,
-         events, eventsCollisions,
+         eventsCollisions,
          gameLoop, gamepad, graphics,
          highscore,
          input,
@@ -253,7 +250,6 @@ export class App {
       });
       await enemies.Init({
          attributes,
-         events,
          eventsCollisions,
          graphics,
          gameData,
@@ -263,7 +259,6 @@ export class App {
          settings,
       });
       await gamepad.Init();
-      await this.events.Init();
       await this.eventsCollisions.Init();
       await this.init.gameSpeed();
       await this.graphics.Init();

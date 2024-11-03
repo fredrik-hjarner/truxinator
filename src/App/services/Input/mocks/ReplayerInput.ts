@@ -19,9 +19,6 @@ export class ReplayerInput implements IInput {
    public readonly name: string;
    /**
     * Keep track of which frame it is "locally" in this object.
-    * the current frame comes with the "frame_tick" event.
-    * Since we want as few dependencies as possible we want to ONLY be dependent on the Events
-    * service and NOT also have to grab FrameCount off the GameLoop service directly.
     */
    private frameCount = 0;
    // From file. Pre-recorded.

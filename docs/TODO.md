@@ -44,8 +44,9 @@ generator (now it creates several thus only one would be killed)!
 
 * Use my utils createShade and createText throughout the UI Scenes code.
 
-* This is an abuse ` this.app.gameLoop.FrameCount` could most likely use the `frameNr` in the
-`frame_tick` event instead, that way depenencies on `gameLoop` can be removed in some places.
+* ~~This is an abuse ` this.app.gameLoop.FrameCount` could most likely use the `frameNr` in the
+`frame_tick` event instead, that way depenencies on `gameLoop` can be removed in some places.~~
+  * No. I have frame number in GameState and just grab it directly, it's more convenient.
 
 * Confirm that reset.css is imported on PROD build cuz suspicious import path.
 
