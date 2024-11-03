@@ -1,6 +1,4 @@
 import type { ButtonsPressed, IInput, TKey } from "./IInput";
-import type { IGameEvents } from "../Events/IEvents";
-import type { TInitParams } from "../IService";
 
 import { BrowserDriver } from "../../../drivers/BrowserDriver/index.ts";
 import { getFrame } from "../GameState.ts";
@@ -10,8 +8,6 @@ type TConstructor = {
 };
 
 export class Input implements IInput {
-   // deps/services
-   private events!: IGameEvents;
 
    // vars
    public readonly name: string;
@@ -36,9 +32,6 @@ export class Input implements IInput {
    public onKeyUpCallback?: (key: TKey) => void;
    /**
     * Keep track of which frame it is "locally" in this object.
-    * the current frame comes with the "frame_tick" event.
-    * Since we want as few dependencies as possible we want to ONLY be dependent on the Events
-    * service and NOT also have to grab FrameCount off the GameLoop service directly.
     */
    private frameCount = 0;
 
@@ -51,21 +44,11 @@ export class Input implements IInput {
       });
    }
 
-   // eslint-disable-next-line @typescript-eslint/require-await
-   public Init = async (deps?: TInitParams) => {
-      // TODO: Better type checking.
-      // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
-      this.events = deps?.events!;
+   // eslint-disable-next-line @typescript-eslint/no-empty-function
+   public Init = async () => {};
 
-      this.events.subscribeToEvent(this.name, (event) => {
-         switch(event.type) {
-            // TODO: Grabbing the frameNr like this might be retarded instead of grabbing it
-            // directly from GameLoop.
-            case "frame_tick":
-               this.frameCount = getFrame();
-               break;
-         }
-      });
+   public Update = () => {
+      this.frameCount = getFrame(); // TODO: Is this really necessary?
    };
 
    public onGameOver = () => {

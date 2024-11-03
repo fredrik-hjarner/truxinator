@@ -241,9 +241,7 @@ export class App {
       await this.e2eTest.Init();
       await this.init.cursorShowGamePos();
       await settings.Init();
-      await input.Init({
-         events
-      });
+      await input.Init();
       await gameLoop.Init();
       await this.init.fps();
       // Note order of init: input -> collisions -> enemies -> graphics

@@ -1,6 +1,3 @@
-import type { IGameEvents } from "../../Events/IEvents";
-
-import type { TInitParams } from "../../IService";
 import type { ButtonsPressed, IInput } from "../IInput";
 
 import { getFrame } from "../../GameState.ts";
@@ -30,29 +27,16 @@ export class ReplayerInput implements IInput {
    // From file. Pre-recorded.
    private replay!: THistory;
 
-   // deps/services
-   private events!: IGameEvents;
-
    public constructor({ name }: TConstructor) {
       this.name = name;
    }
 
-   public Init = async (deps?: TInitParams) => {
+   public Init = async () => {
       this.replay = (await import("./replay.ts")).replay as THistory;
+   };
 
-      // TODO: Better type checking
-      // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
-      this.events = deps?.events!;
-
-      this.events.subscribeToEvent(this.name, (event) => {
-         switch(event.type) {
-            case "frame_tick":
-               this.frameCount = getFrame();
-               break;
-            default:
-               // NOOP
-         }
-      });
+   public Update = () => {
+      this.frameCount = getFrame(); // TODO: Is this really necessary?
    };
 
    public get ButtonsPressed(): ButtonsPressed {
