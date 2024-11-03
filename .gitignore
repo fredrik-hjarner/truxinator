@@ -1,6 +1,0 @@
-node_modules
-dist
-.task
-tsconfig.tsbuildinfo
-*.zip
-.VSCodeCounter
