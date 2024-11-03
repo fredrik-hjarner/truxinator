@@ -14,4 +14,4 @@ fi
 
 # Move files and clean up
 mv dist/schmupinator/* .
-rm -rf src dist docs scripts tsconfig.json vite.config.ts package.json package-lock.json tsconfig.json vite.config.ts githubAssets deno.jsonc public images .vscode .github .task Taskfile.yml .gitignore favicon.svg eslint.config.mjs
+rm -rf src dist docs scripts tsconfig.json vite.config.ts package.json package-lock.json tsconfig.json vite.config.ts githubAssets deno.jsonc public .vscode .github .task Taskfile.yml .gitignore favicon.svg eslint.config.mjs

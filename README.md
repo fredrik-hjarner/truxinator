@@ -9,7 +9,7 @@
 
 > The ambition is to make a shoot 'em up maker with the ability for users to create their own shoot 'em up stages.
 
-You can try version 0.7.0 here: https://fredrik-hjarner.github.io/schmupinator/
+You can try version 0.7.1 here: https://fredrik-hjarner.github.io/schmupinator/
 
 ~~You can try version 0.6.0 here: https://fredrik-hjarner.github.io/schmupinator-0.6.0/~~
 
