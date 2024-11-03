@@ -1,10 +1,7 @@
 import type { Vector as TVector } from "../../../math/bezier";
-import type { IService, TInitParams } from "../IService";
+import type { TInitParams } from "../IService";
 import type { GameData } from "../GamaData/GameData";
 import type { TGameObject } from "../../../gameTypes/TGameObject";
-import type {
-   IEventsCollisions, TCollisionsEvent,
-} from "../Events/IEvents";
 import type { IGraphics } from "../Graphics/IGraphics";
 import type { GamePad } from "../GamePad/GamePad";
 import type { IInput } from "../Input/IInput";
@@ -12,12 +9,14 @@ import type { Settings } from "../Settings/Settings";
 import type { TAction } from "./actions/actionTypes.ts";
 import type { IAttributes } from "../Attributes/IAttributes";
 import type { IPseudoRandom } from "../PseudoRandom/IPseudoRandom.ts";
+import type { IEnemies } from "./IEnemies.ts";
+import type { TCollisions } from "../Collisions/Collisions.ts";
 
 import { ActionType as AT } from "./actions/actionTypes.ts";
 import { Enemy } from "./Enemy.ts";
 import { getFrame } from "../GameState.ts";
 
-export class Enemies implements IService {
+export class Enemies implements IEnemies {
    public readonly name: string;
    public enemies: { [gameObjectId: string]: Enemy };
    // Just so that player does not have to be found every time.
@@ -25,7 +24,6 @@ export class Enemies implements IService {
 
    // deps/services
    private gameData!: GameData;
-   public eventsCollisions!: IEventsCollisions;
    public graphics!: IGraphics;
    public input!: IInput;
    public gamepad!: GamePad;
@@ -51,7 +49,6 @@ export class Enemies implements IService {
    public Init = async (deps?: TInitParams) => {
       /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
       // TODO: Better type checking.
-      this.eventsCollisions = deps?.eventsCollisions!;
       this.gameData = deps?.gameData!;
       this.graphics = deps?.graphics!;
       this.input = deps?.input!;
@@ -60,8 +57,6 @@ export class Enemies implements IService {
       this.attributes = deps?.attributes!;
       this.pseudoRandom = deps?.pseudoRandom!;
       /* eslint-enable @typescript-eslint/no-non-null-asserted-optional-chain */
-
-      this.eventsCollisions.subscribeToEvent(this.name, this.handleEvent);
    };
 
    public Spawn = (
@@ -158,22 +153,19 @@ export class Enemies implements IService {
    };
 
    // TODO: Push this down into Enemy, so that onFramTick and OnCollisions can be private
-   private handleEvent = (event: TCollisionsEvent) => {
-      switch(event.type) {
-         case "collisions": // max 1 collision event per frame. Collisions service only emits 1 evt
-            for (const [enemyId, collisionTypes] of Object.entries(event.collisions)) {
-               const enemy = this.enemies[enemyId];
-               if(enemy) {
-                  // TODO: new code. I want to store the collision types that the enemy collided
-                  // with on the enemy for ONE frame (the generator function reads these).
-                  enemy.collidedWithCollisionTypesThisFrame = [
-                     ...new Set([...enemy.collidedWithCollisionTypesThisFrame, ...collisionTypes])
-                  ];
-               }
-            }
-            break;
-         default:
-            // NOOP
+   public storeCollisions = (collisions: TCollisions) => {
+      if(Object.keys(collisions).length < 1) {
+         return;
+      }
+      for (const [enemyId, collisionTypes] of Object.entries(collisions)) {
+         const enemy = this.enemies[enemyId];
+         if(enemy) {
+            // TODO: new code. I want to store the collision types that the enemy collided
+            // with on the enemy for ONE frame (the generator function reads these).
+            enemy.collidedWithCollisionTypesThisFrame = [
+               ...new Set([...enemy.collidedWithCollisionTypesThisFrame, ...collisionTypes])
+            ];
+         }
       }
    };
 }

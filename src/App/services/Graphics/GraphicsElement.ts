@@ -70,11 +70,7 @@ export class GraphicsElement implements IDestroyable {
       });
    }
 
-   public destroy = () => {
-      /**
-       * Unsubscribe from events.
-       */
-      
+   public destroy = () => {      
       /**
         * reset vars
         */

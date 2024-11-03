@@ -1,5 +1,4 @@
 import type { Enemies } from "../Enemies/Enemies";
-import type { IEventsCollisions } from "../Events/IEvents";
 import type { IService, TInitParams } from "../IService";
 import type { IAttributes } from "../Attributes/IAttributes";
 
@@ -34,7 +33,6 @@ export class Collisions implements IService {
    public accumulatedTime = 0;
    
    // deps/services
-   private eventsCollisions!: IEventsCollisions;
    private enemies!: Enemies;
    private attributes!: IAttributes;
 
@@ -55,14 +53,12 @@ export class Collisions implements IService {
    public Init = async (deps?: TInitParams) => {
       /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
       // TODO: Better type checking.
-      this.eventsCollisions = deps?.eventsCollisions!;
       this.enemies = deps?.enemies!;
       this.attributes = deps?.attributes!;
       /* eslint-enable @typescript-eslint/no-non-null-asserted-optional-chain */
    };
 
-   // TODO: Rename and return collisions. Collisions are then put into Enemies.Update or something.
-   public Update = () => {
+   public calculateCollisions = (): TCollisions => {
       const startTime = BrowserDriver.PerformanceNow();
 
       // variable in which to store all collisions.
@@ -112,9 +108,7 @@ export class Collisions implements IService {
 
       // console.log("collisions:", collisions);
 
-      if(Object.keys(collisions).length > 0) {
-         this.eventsCollisions.dispatchEvent({ type: "collisions", collisions });
-      }
+      return collisions;
    };
 
    /**

@@ -35,11 +35,7 @@ export class Graphics implements IGraphics {
       this.elementPool = this.initElementPool();
    }
 
-   public destroy = () => {
-      /**
-       * Unsubscribe from events.
-       */
-      
+   public destroy = () => {     
       /**
         * reset vars
         */

@@ -6,9 +6,6 @@ import type { IGameLoop } from "./services/GameLoop/IGameLoop";
 import type { IFps } from "./services/Fps/IFps";
 import type { IGraphics } from "./services/Graphics/IGraphics";
 import type { IUI } from "./services/UI/IUI";
-import type {
-   IEventsCollisions, TCollisionsEvent,
-} from "./services/Events/IEvents";
 import type { IGameSpeed } from "./services/GameSpeed/IGameSpeed";
 import type { IFullscreen } from "./services/Fullscreen/IFullscreen";
 import type { IE2eTest } from "./services/E2eTest/IE2eTest";
@@ -16,6 +13,7 @@ import type { IOutsideHider } from "./services/OutsideHider/IOutsideHider";
 import type { ICursorShowGamePos } from "./services/CursorShowGamePos/ICursorShowGamePos";
 import type { IAttributes } from "./services/Attributes/IAttributes";
 import type { IPseudoRandom } from "./services/PseudoRandom/IPseudoRandom";
+import type { ICollisions } from "./services/Collisions/ICollisions";
 
 /**
  * Services
@@ -28,9 +26,6 @@ import { Fps } from "./services/Fps/Fps.ts";
 import { Input } from "./services/Input/Input.ts";
 import { GamePad } from "./services/GamePad/GamePad.ts";
 import { Collisions } from "./services/Collisions/Collisions.ts";
-//@ts-ignore
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Events } from "./services/Events/Events.ts";
 //@ts-ignore
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { GameSpeed } from "./services/GameSpeed/GameSpeed.ts";
@@ -88,8 +83,7 @@ export class App {
    public fps: IFps;
    public enemies: Enemies;
    public gamepad: GamePad;
-   public collisions: Collisions;
-   public eventsCollisions: IEventsCollisions;
+   public collisions: ICollisions;
    public gameSpeed: IGameSpeed;
    public highscore: Highscore;
    public gameData: GameData;
@@ -141,10 +135,6 @@ export class App {
       this.gamepad = new GamePad({ name: "gamePad" });
 
       this.collisions = new Collisions({ name: "collisions" });
-
-      /* The events services are event channels passing events with
-       * `dispatchEvent` and `subscribeToEvent` functions */
-      this.eventsCollisions = new Events<TCollisionsEvent>({ app: this, name: "eventsCollisions" });
 
       this.gameSpeed = this.construct.gameSpeed();
 
@@ -215,7 +205,6 @@ export class App {
          attributes,
          // collisions,
          enemies,
-         eventsCollisions,
          gameLoop, gamepad, graphics,
          highscore,
          input,
@@ -246,11 +235,9 @@ export class App {
       await this.collisions.Init({
          attributes,
          enemies,
-         eventsCollisions, // TODO: remove this dependency and remove EventCollisions event channel.
       });
       await enemies.Init({
          attributes,
-         eventsCollisions, // TODO: remove this dependency and remove EventCollisions event channel.
          graphics,
          gameData,
          gamepad,
@@ -259,7 +246,6 @@ export class App {
          settings,
       });
       await gamepad.Init();
-      await this.eventsCollisions.Init();
       await this.init.gameSpeed();
       await this.graphics.Init();
       await this.ui.Init({

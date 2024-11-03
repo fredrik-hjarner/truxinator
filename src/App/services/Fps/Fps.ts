@@ -9,7 +9,7 @@ import { initFrameCounterDiv } from "./frameCounterDiv.ts";
 import { getFrame } from "../GameState.ts";
 
 type TConstructor = {
-   // TODO: remove app here. should be super simple as fps is only dependent on app.events.
+   // TODO: remove app here?
    app: App;
    name: string;
 };

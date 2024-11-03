@@ -227,7 +227,7 @@ export class Enemy {
             this.attrs.decr({ gameObjectId: gameObjectId ?? this.id, attribute, amount });
             break;
          }
-         case AT.finishLevel: // TODO: dispatch some new "finishLevel" event instead.
+         case AT.finishLevel: // TODO: Refactor? Could probably be called "finishLevel" instead.
             setGameOver(true);
             break;
          case AT.addPoints:

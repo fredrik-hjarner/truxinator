@@ -1,4 +1,3 @@
-import type { IEventsCollisions } from "./Events/IEvents";
 import type { Settings } from "./Settings/Settings";
 import type { IInput } from "./Input/IInput";
 import type { IE2eTest } from "./E2eTest/IE2eTest";
@@ -26,7 +25,6 @@ export type TInitParams = Partial<{
   enemies: Enemies;
   gamepad: GamePad;
   collisions: Collisions;
-  eventsCollisions: IEventsCollisions;
   gameSpeed: IGameSpeed;
   highscore: Highscore;
   gameData: GameData;
@@ -48,8 +46,8 @@ export interface IService {
    */
   Init: (deps?: TInitParams) => Promise<void>
   // Destroy: () => void
-  // TODO: Eventually all services should make use of this Update method instead of listening to
-  //events.
+  // TODO: Maybe call something else like advanceFrame or something? and maybe not even have on
+  // the interface but let services have it on their own interfaces.
   Update?: () => void;
 
   // TODO: Maybe I'm getting sloppy adding this here. It's currently only used by E2eTest.ts.
