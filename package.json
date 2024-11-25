@@ -31,6 +31,6 @@
   },
   "optionalDependencies:comments": "needed only for one reason. lock file created and committed in windows makes pipelines explode in linux",
   "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "^4.24.0"
+    "@rollup/rollup-linux-x64-gnu": "^4.27.4"
   }
 }
